@@ -1,29 +1,23 @@
+#pragma once
+
 #include <cmath>
 
-struct Coords
-{
-    Coords(float x, float y, float z) : x(x), y(y), z(z) {}
-
-    float x;
-    float y;
-    float z;
-};
-
-class Point
+class Point final
 {
 public:
     Point(float x, float y, float z) : x(x), y(y), z(z) {}
 
-    Coords get() const;
-    bool set(Coords point);
-
-    void print() const;
-
     bool valid() const;
     bool equal(const Point& another_point) const;
 
-private:
+    void print() const;
+
+    Point operator+(const Point& point) const;
+    Point operator-(const Point& point) const;
+
     float x = NAN;
     float y = NAN;
     float z = NAN;
 };
+
+bool IsThreePointsOnOneLine(const Point& p1, const Point& p2, const Point& p3);
