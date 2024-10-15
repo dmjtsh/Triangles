@@ -26,7 +26,7 @@ bool Vector::equal(const Vector& another_vector) const
     if(!another_vector.valid())
         return false;
 
-    if (CheckFloatsEqual(x, another_vector.x) && CheckFloatsEqual(y, another_vector.x)
+    if (CheckFloatsEqual(x, another_vector.x) && CheckFloatsEqual(y, another_vector.y)
     &&  CheckFloatsEqual(z, another_vector.z))
         return true;
 
@@ -55,7 +55,7 @@ float Dot(const Vector& v1, const Vector& v2)
 //
 
 
-Vector Vector::operator+(const Vector & vector) const
+Vector Vector::operator+(const Vector& vector) const
 {
     return Vector(x+vector.x, y+vector.y, z+vector.z);
 }
@@ -65,9 +65,11 @@ Vector Vector::operator-(const Vector & vector) const
     return Vector(x-vector.x, y-vector.y, z-vector.z);
 }
 
-Vector Vector::operator=(const Point& point) const
+void Vector::operator=(const Point& point)
 {
-    return Vector(point.x, point.y, point.z);
+    x = point.x;
+    y = point.y;
+    z = point.z;
 }
 
 Vector Vector::operator*(float const_var) const

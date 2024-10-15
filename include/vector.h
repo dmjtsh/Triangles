@@ -7,8 +7,8 @@
 class Vector final
 {
 public:
+    Vector() = default;
     Vector(const Point& p1, const Point& p2);
-
     Vector(float x, float y, float z) : x(x), y(y), z(z) {}
 
     float length();
@@ -21,7 +21,7 @@ public:
     Vector operator+(const Vector& vector) const;
     Vector operator-(const Vector& vector) const;
     Vector operator*(float const_var) const;
-    Vector operator=(const Point& point) const;
+    void   operator=(const Point& point);
 
     float x = NAN;
     float y = NAN;

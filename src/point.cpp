@@ -7,8 +7,12 @@
 
 bool IsThreePointsOnOneLine(const Point& p1, const Point& p2, const Point& p3)
 {
-    return (p3.x - p1.x)/(p2.x - p1.x) == (p3.y - p1.y)/(p2.y - p1.y)
-                                       == (p3.z - p1.z)/(p2.z - p1.z);
+    float first_fraq  = (p3.x - p1.x)/(p2.x - p1.x);
+    float second_fraq = (p3.y - p1.y)/(p2.y - p1.y);
+    float third_fraq  = (p3.z - p1.z)/(p2.z - p1.z);
+
+    return CheckFloatsEqual(first_fraq, second_fraq) && CheckFloatsEqual(second_fraq, third_fraq)
+        && CheckFloatsEqual(first_fraq, third_fraq);
 }
 
 void Point::print() const
@@ -38,4 +42,11 @@ Point Point::operator+(const Point& point) const
 Point Point::operator-(const Point& point) const
 {
     return Point(x-point.x, y-point.y, z-point.z);
+}
+
+void Point::operator=(const Vector& vector)
+{
+    x = vector.x;
+    y = vector.y;
+    z = vector.z;
 }

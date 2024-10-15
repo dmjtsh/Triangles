@@ -2,9 +2,12 @@
 
 #include <cmath>
 
+class Vector;
+
 class Point final
 {
 public:
+    Point() = default;
     Point(float x, float y, float z) : x(x), y(y), z(z) {}
 
     bool valid() const;
@@ -14,6 +17,7 @@ public:
 
     Point operator+(const Point& point) const;
     Point operator-(const Point& point) const;
+    void  operator=(const Vector& vector);
 
     float x = NAN;
     float y = NAN;

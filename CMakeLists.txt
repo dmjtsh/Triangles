@@ -8,3 +8,5 @@ project(triangles_proj VERSION 1.0)
 file(GLOB_RECURSE SRC_FILES src/*.cpp)
 add_executable(triangles_proj main.cpp ${SRC_FILES})
 target_include_directories(triangles_proj PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+add_subdirectory(unit_tests)

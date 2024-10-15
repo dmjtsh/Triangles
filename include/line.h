@@ -6,6 +6,7 @@
 class Line final
 {
 public:
+    Line() = default;
     Line(Vector d, Point p) : distance(d), point(p) {}
 
     bool valid() const;
