@@ -18,9 +18,11 @@ void Triangle::print() const
     point3.print();
 }
 
-bool Triangle::valid() const { return point1.valid() && point2.valid() && point3.valid()
-            && !point1.equal(point2) && !point1.equal(point3) && !point2.equal(point3)
-            && !IsThreePointsOnOneLine(point1, point2, point3); }
+bool Triangle::valid() const {
+    return point1.valid() && point2.valid() && point3.valid()
+    && !point1.equal(point2) && !point1.equal(point3) && !point2.equal(point3)
+    && !IsThreePointsOnOneLine(point1, point2, point3);
+}
 
 bool Triangle::equal(const Triangle& another_triangle) const
 {

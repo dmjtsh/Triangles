@@ -20,7 +20,7 @@ void Point::print() const
     std::cout << "x:" << x << " " << "y:" << y << " " << "z:" << z << std::endl;
 }
 
-bool Point::valid() const { return x != NAN && y != NAN && z != NAN;}
+bool Point::valid() const { return !std::isnan(x) && !std::isnan(y) && !std::isnan(z); }
 
 bool Point::equal(const Point& another_point) const
 {

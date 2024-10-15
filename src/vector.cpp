@@ -19,7 +19,7 @@ void Vector::print() const
     std::cout << "x:" << x << " " << "y:" << y << " " << "z:" << z << std::endl;
 }
 
-bool Vector::valid() const { return x != NAN && y != NAN && z != NAN;}
+bool Vector::valid() const { return !std::isnan(x) && !std::isnan(y) && !std::isnan(z); }
 
 bool Vector::equal(const Vector& another_vector) const
 {

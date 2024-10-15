@@ -167,8 +167,6 @@ TEST(TestPointAssignmentOperator, AssignNegativeVectorToPoint)
     ASSERT_NEAR(point.z, vector.z, 0.0001);
 }
 
-
-
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
