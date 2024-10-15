@@ -3,15 +3,17 @@
 #include "line.h"
 #include "utilities.h"
 
+#include <cmath>
+
 Plane::Plane(const Triangle& triangle)
 {
-    Vector a_b(triangle.point1, triangle.point2);
-    Vector a_c(triangle.point1, triangle.point3);
+    Vector a_b(triangle.point0, triangle.point1);
+    Vector a_c(triangle.point0, triangle.point2);
 
     normal = Cross(a_b, a_c);
 
-    distance = -normal.x * triangle.point1.x - normal.y * triangle.point1.y
-              - normal.z * triangle.point1.z;
+    distance = -normal.x * triangle.point0.x - normal.y * triangle.point0.y
+              - normal.z * triangle.point0.z;
 }
 
 // TODO: znak normali
@@ -42,4 +44,14 @@ bool CheckIntersectionOfPlanes(Plane& plane1, Plane& plane2, Line& line)
     line.point = (plane1.normal * a) + (plane2.normal * b);
 
     return true;
+}
+
+float GetDistBetweenPlaneAndPoint(Plane& plane, Point& point)
+{
+    float numerator   = plane.normal.x * point.x + plane.normal.y * point.y
+    + plane.normal.z * point.z + plane.distance;
+    float denominator = std::sqrt(std::pow(plane.normal.x, 2)
+    + std::pow(plane.normal.y, 2) + std::pow(plane.normal.z, 2));
+
+    return numerator / denominator;
 }

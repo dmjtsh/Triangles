@@ -24,4 +24,4 @@ public:
     float z = NAN;
 };
 
-bool IsThreePointsOnOneLine(const Point& p1, const Point& p2, const Point& p3);
+bool IsThreePointsOnOneLine(const Point& p0, const Point& p1, const Point& p2);

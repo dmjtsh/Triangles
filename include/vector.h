@@ -8,7 +8,7 @@ class Vector final
 {
 public:
     Vector() = default;
-    Vector(const Point& p1, const Point& p2);
+    Vector(const Point& p0, const Point& p1);
     Vector(float x, float y, float z) : x(x), y(y), z(z) {}
 
     float length();
@@ -28,6 +28,6 @@ public:
     float z = NAN;
 };
 
-Vector Cross(const Vector& v1, const Vector& v2);
+Vector Cross(const Vector& v0, const Vector& v1);
 
-float Dot(const Vector& v1, const Vector& v2);
+float Dot(const Vector& v0, const Vector& v1);

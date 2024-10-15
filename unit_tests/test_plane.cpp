@@ -109,6 +109,43 @@ TEST(TestIntersectionOfPlanes, Subtest_4_GeneralCase)
     ASSERT_NEAR(line.point.z, expected_point.z, 0.0001f);
 }
 
+TEST(TestGetDistBetweenPlaneAndPoint, PointAbovePlane) {
+    Plane plane{{0, 0, 1}, -5};
+    Point point{0, 0, 6};
+
+    float distance = GetDistBetweenPlaneAndPoint(plane, point);
+
+    ASSERT_NEAR(distance, 1.0, 0.0001);
+}
+
+TEST(TestGetDistBetweenPlaneAndPoint, PointBelowPlane) {
+    Plane plane{{0, 0, 1}, -5};
+    Point point{0, 0, 4};
+
+    float distance = GetDistBetweenPlaneAndPoint(plane, point);
+
+    ASSERT_NEAR(distance, -1.0, 0.0001);
+}
+
+TEST(TestGetDistBetweenPlaneAndPoint, PointOnPlane) {
+    Plane plane{{0, 0, 1}, -5};
+    Point point{0, 0, 5};
+
+    float distance = GetDistBetweenPlaneAndPoint(plane, point);
+
+    ASSERT_NEAR(distance, 0.0, 0.0001);
+}
+
+TEST(TestGetDistBetweenPlaneAndPoint, ArbitraryPointAndPlane) {
+    Plane plane{{1, -1, 2}, -3};
+    Point point{4, 3, -2};
+
+    float distance = GetDistBetweenPlaneAndPoint(plane, point);
+
+    float expected_distance = (1*4 - 1*3 + 2*(-2) - 3) / std::sqrt(1*1 + (-1)*(-1) + 2*2);
+    ASSERT_NEAR(distance, expected_distance, 0.0001);
+}
+
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);

@@ -10,6 +10,7 @@ class Plane final
 {
 public:
     Plane() = default;
+
     Plane(const Vector& n, float d) : normal(n), distance(d) {}
     Plane(const Triangle& triangle);
 
@@ -17,4 +18,6 @@ public:
     float distance;
 };
 
-bool CheckIntersectionOfPlanes(Plane& plane1, Plane& plane2, Line& line);
+bool CheckIntersectionOfPlanes(Plane& plane0, Plane& plane1, Line& line);
+
+float GetDistBetweenPlaneAndPoint(Plane& plane, Point& point);
