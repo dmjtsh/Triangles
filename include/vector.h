@@ -28,6 +28,8 @@ public:
     float z = NAN;
 };
 
-Vector Cross(const Vector& v0, const Vector& v1);
+Vector Cross(const Vector& v1, const Vector& v2);
 
-float Dot(const Vector& v0, const Vector& v1);
+float Dot(const Vector& v1, const Vector& v2);
+
+float Dot(const Vector& v1, const Point& p2);

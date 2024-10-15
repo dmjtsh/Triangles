@@ -3,6 +3,7 @@
 
 #include "utilities.h"
 #include "triangle.h"
+#include "interval.h"
 #include "plane.h"
 
 void Triangle::print() const
@@ -50,11 +51,11 @@ bool CheckTrianglesIntersection3D(Triangle& triangle0, Triangle& triangle1)
 
     Plane plane0 {triangle0};
 
-    float signed_dist_1_0 = GetSignDistBetweenPlaneAndPoint(plane0, triangle1.point0);
-    float signed_dist_1_1 = GetSignDistBetweenPlaneAndPoint(plane0, triangle1.point1);
-    float signed_dist_1_2 = GetSignDistBetweenPlaneAndPoint(plane0, triangle1.point2);
+    float sign_dist_1_0 = GetSignDistBetweenPlaneAndPoint(plane0, triangle1.point0);
+    float sign_dist_1_1 = GetSignDistBetweenPlaneAndPoint(plane0, triangle1.point1);
+    float sign_dist_1_2 = GetSignDistBetweenPlaneAndPoint(plane0, triangle1.point2);
 
-    if(!HasDifferentSign(signed_dist_1_0, signed_dist_1_1, signed_dist_1_2))
+    if(!HasDifferentSign(sign_dist_1_0, sign_dist_1_1, sign_dist_1_2))
         return false;
 
     Plane plane1 {triangle1};
@@ -67,16 +68,37 @@ bool CheckTrianglesIntersection3D(Triangle& triangle0, Triangle& triangle1)
             return false;
     }
 
-    float signed_dist_0_0 = GetSignDistBetweenPlaneAndPoint(plane1, triangle0.point0);
-    float signed_dist_0_1 = GetSignDistBetweenPlaneAndPoint(plane1, triangle0.point1);
-    float signed_dist_0_2 = GetSignDistBetweenPlaneAndPoint(plane1, triangle0.point2);
+    float sign_dist_0_0 = GetSignDistBetweenPlaneAndPoint(plane1, triangle0.point0);
+    float sign_dist_0_1 = GetSignDistBetweenPlaneAndPoint(plane1, triangle0.point1);
+    float sign_dist_0_2 = GetSignDistBetweenPlaneAndPoint(plane1, triangle0.point2);
 
-    if(!HasDifferentSign(signed_dist_0_0, signed_dist_0_1, signed_dist_0_2))
+    if(!HasDifferentSign(sign_dist_0_0, sign_dist_0_1, sign_dist_0_2))
         return false;
 
-    Line intersection_line = GetIntersectionLineOfPlanes(plane0, plane1);
+    Line int_line = GetIntersectionLineOfPlanes(plane0, plane1);
 
+    Interval interval0;
+    Interval interval1;
 
+    float vec_proj_0_0 = Dot(int_line.distance, triangle0.point0 - int_line.point);
+    float vec_proj_0_1 = Dot(int_line.distance, triangle0.point1 - int_line.point);
+    float vec_proj_0_2 = Dot(int_line.distance, triangle0.point2 - int_line.point);
 
-    return true;
+    interval0.t0 = (vec_proj_0_0 + (vec_proj_0_2 - vec_proj_0_0) * sign_dist_0_0)
+                    / (sign_dist_0_0 - sign_dist_0_2);
+
+    interval0.t1 = (vec_proj_0_1 + (vec_proj_0_2 - vec_proj_0_1) * sign_dist_0_1)
+                    / (sign_dist_0_1 - sign_dist_0_2);
+
+    float vec_proj_1_0 = Dot(int_line.distance, triangle1.point0 - int_line.point);
+    float vec_proj_1_1 = Dot(int_line.distance, triangle1.point1 - int_line.point);
+    float vec_proj_1_2 = Dot(int_line.distance, triangle1.point2 - int_line.point);
+
+    interval1.t0 = (vec_proj_1_0 + (vec_proj_1_2 - vec_proj_1_0) * sign_dist_1_0)
+                    / (sign_dist_1_0 - sign_dist_1_2);
+
+    interval1.t1 = (vec_proj_1_1 + (vec_proj_1_2 - vec_proj_1_1) * sign_dist_1_1)
+                    / (sign_dist_1_1 - sign_dist_1_2);
+
+    return interval0.overlap(interval1);
 }

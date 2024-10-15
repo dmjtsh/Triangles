@@ -4,9 +4,9 @@
 
 bool Interval::overlap(const Interval& another_interval) const
 {
-    return !(t2 < another_interval.t1 || another_interval.t2 < t1);
+    return !(t1 < another_interval.t0 || another_interval.t1 < t0);
 }
 
-bool Interval::valid() const { return !std::isnan(t1) && !std::isnan(t2); }
+bool Interval::valid() const { return !std::isnan(t0) && !std::isnan(t1); }
 
-void Interval::print() const { std::cout << "t1:" << t1 << " " << "t2:" << t2 << std::endl; }
+void Interval::print() const { std::cout << "t0:" << t0 << " " << "t1:" << t1 << std::endl; }

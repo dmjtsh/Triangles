@@ -49,6 +49,10 @@ float Dot(const Vector& v1, const Vector& v2)
     return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z;
 }
 
+float Dot(const Vector& v1, const Point& p2)
+{
+    return v1.x*p2.x + v1.y*p2.y + v1.z*p2.z;
+}
 
 //
 // Operators Overloading
