@@ -16,16 +16,33 @@ Plane::Plane(const Triangle& triangle)
               - normal.z * triangle.point0.z;
 }
 
-// TODO: znak normali
-bool CheckIntersectionOfPlanes(Plane& plane1, Plane& plane2, Line& line)
+bool Plane::equal(const Plane& another_plane) const
 {
-    Vector cross_plane12 = Cross(plane1.normal, plane2.normal);
+    float ratio_a = normal.x / another_plane.normal.x;
+    float ratio_b = normal.y / another_plane.normal.y;
+    float ratio_c = normal.z / another_plane.normal.z;
+    float ratio_d = distance / another_plane.distance;
 
-    // TODO: + Planes coincidence
-    if(CheckFloatsEqual(cross_plane12.length(), 0))
-    {
-        return false;
-    }
+    return CheckFloatsEqual(ratio_a, ratio_b) && CheckFloatsEqual(ratio_a, ratio_c)
+        && CheckFloatsEqual(ratio_a, ratio_d) && CheckFloatsEqual(ratio_b, ratio_c)
+        && CheckFloatsEqual(ratio_b, ratio_d) && CheckFloatsEqual(ratio_c, ratio_d);
+}
+
+bool Plane::parallel(const Plane& another_plane) const
+{
+    float ratio_a = normal.x / another_plane.normal.x;
+    float ratio_b = normal.y / another_plane.normal.y;
+    float ratio_c = normal.z / another_plane.normal.z;
+
+    return CheckFloatsEqual(ratio_a, ratio_b) && CheckFloatsEqual(ratio_a, ratio_c)
+        && CheckFloatsEqual(ratio_b, ratio_c);
+}
+
+Line GetIntersectionLineOfPlanes(Plane& plane1, Plane& plane2)
+{
+    Line line;
+
+    Vector cross_plane12 = Cross(plane1.normal, plane2.normal);
 
     line.distance = cross_plane12;
 
@@ -43,13 +60,14 @@ bool CheckIntersectionOfPlanes(Plane& plane1, Plane& plane2, Line& line)
 
     line.point = (plane1.normal * a) + (plane2.normal * b);
 
-    return true;
+    return line;
 }
 
-float GetDistBetweenPlaneAndPoint(Plane& plane, Point& point)
+float GetSignDistBetweenPlaneAndPoint(Plane& plane, Point& point)
 {
     float numerator   = plane.normal.x * point.x + plane.normal.y * point.y
     + plane.normal.z * point.z + plane.distance;
+
     float denominator = std::sqrt(std::pow(plane.normal.x, 2)
     + std::pow(plane.normal.y, 2) + std::pow(plane.normal.z, 2));
 

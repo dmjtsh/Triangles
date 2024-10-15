@@ -19,3 +19,8 @@ add_executable(vector_tests ${CMAKE_SOURCE_DIR}/unit_tests/test_vector.cpp ${SRC
 target_link_libraries(vector_tests gtest gmock pthread)
 target_include_directories(vector_tests PUBLIC ${CMAKE_SOURCE_DIR}/include)
 add_test(NAME VECTOR_TESTS COMMAND vector_tests)
+
+add_executable(interval_tests ${CMAKE_SOURCE_DIR}/unit_tests/test_interval.cpp ${SRC_FILES})
+target_link_libraries(interval_tests gtest gmock pthread)
+target_include_directories(interval_tests PUBLIC ${CMAKE_SOURCE_DIR}/include)
+add_test(NAME INTERVAL_TESTS COMMAND interval_tests)

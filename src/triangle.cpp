@@ -38,15 +38,45 @@ bool Triangle::equal(const Triangle& another_triangle) const
 }
 
 
-// bool CheckTrianglesIntersection(Triangle& triangle1, Triangle& triangle2)
-// {
-//     if(!triangle1.valid() || !triangle2.valid())
-//         return false;
-//
-//     Plane plane0 {triangle1};
-//
-//     float signed_dist_1_0 = GetDistBetweenPlaneAndPoint(plane0, triangle
-//
-//
-//     Plane plane1 {triangle2};
-// }
+bool CheckTrianglesIntersection2D(Triangle& triangle0, Triangle& triangle1)
+{
+    return true;
+}
+
+bool CheckTrianglesIntersection3D(Triangle& triangle0, Triangle& triangle1)
+{
+    if(!triangle0.valid() || !triangle1.valid())
+        return false;
+
+    Plane plane0 {triangle0};
+
+    float signed_dist_1_0 = GetSignDistBetweenPlaneAndPoint(plane0, triangle1.point0);
+    float signed_dist_1_1 = GetSignDistBetweenPlaneAndPoint(plane0, triangle1.point1);
+    float signed_dist_1_2 = GetSignDistBetweenPlaneAndPoint(plane0, triangle1.point2);
+
+    if(!HasDifferentSign(signed_dist_1_0, signed_dist_1_1, signed_dist_1_2))
+        return false;
+
+    Plane plane1 {triangle1};
+
+    if(plane0.parallel(plane1))
+    {
+        if(plane0.equal(plane1))
+            return CheckTrianglesIntersection2D(triangle0, triangle1);
+        else
+            return false;
+    }
+
+    float signed_dist_0_0 = GetSignDistBetweenPlaneAndPoint(plane1, triangle0.point0);
+    float signed_dist_0_1 = GetSignDistBetweenPlaneAndPoint(plane1, triangle0.point1);
+    float signed_dist_0_2 = GetSignDistBetweenPlaneAndPoint(plane1, triangle0.point2);
+
+    if(!HasDifferentSign(signed_dist_0_0, signed_dist_0_1, signed_dist_0_2))
+        return false;
+
+    Line intersection_line = GetIntersectionLineOfPlanes(plane0, plane1);
+
+
+
+    return true;
+}

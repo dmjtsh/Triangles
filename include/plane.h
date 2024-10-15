@@ -10,14 +10,16 @@ class Plane final
 {
 public:
     Plane() = default;
-
     Plane(const Vector& n, float d) : normal(n), distance(d) {}
     Plane(const Triangle& triangle);
+
+    bool equal(const Plane& another_plane) const;
+    bool parallel(const Plane& another_plane) const;
 
     Vector normal;
     float distance;
 };
 
-bool CheckIntersectionOfPlanes(Plane& plane0, Plane& plane1, Line& line);
+Line GetIntersectionLineOfPlanes(Plane& plane1, Plane& plane2);
 
-float GetDistBetweenPlaneAndPoint(Plane& plane, Point& point);
+float GetSignDistBetweenPlaneAndPoint(Plane& plane, Point& point);
