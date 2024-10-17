@@ -1,6 +1,6 @@
-#include <cmath>
-
 #include "utilities.h"
+
+#include <cmath>
 
 bool CheckFloatsEqual(float f1, float f2)
 {

@@ -8,10 +8,10 @@
 
 TEST(TestPlaneConstructorCorrectness, Subtest_1)
 {
-    Triangle triangle{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
-    Plane plane{triangle};
+    Triangle3D triangle{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+    Plane3D plane{triangle};
 
-    Vector needed_normal{1.0f, 1.0f, 1.0f};
+    Vector3D needed_normal{1.0f, 1.0f, 1.0f};
     float needed_distance = - (needed_normal.x * 1 + needed_normal.y * 0 + needed_normal.z * 0);
 
     ASSERT_NEAR(plane.distance, needed_distance, 0.0001f);
@@ -20,10 +20,10 @@ TEST(TestPlaneConstructorCorrectness, Subtest_1)
 
 TEST(TestPlaneConstructorCorrectness, Subtest_2)
 {
-    Triangle triangle{{1, 1, 1}, {2, 3, 1}, {3, 1, 2}};
-    Plane plane{triangle};
+    Triangle3D triangle{{1, 1, 1}, {2, 3, 1}, {3, 1, 2}};
+    Plane3D plane{triangle};
 
-    Vector needed_normal{2.0f, -1.0f, -4.0f};
+    Vector3D needed_normal{2.0f, -1.0f, -4.0f};
     float needed_distance = - (needed_normal.x * 1 + needed_normal.y * 1 + needed_normal.z * 1);
 
     ASSERT_NEAR(plane.distance, needed_distance, 0.0001f);
@@ -32,10 +32,10 @@ TEST(TestPlaneConstructorCorrectness, Subtest_2)
 
 TEST(TestPlaneConstructorCorrectness, Subtest_3)
 {
-    Triangle triangle{{1, 0, 0}, {1, 0, 1}, {1, 1, 0}};
-    Plane plane{triangle};
+    Triangle3D triangle{{1, 0, 0}, {1, 0, 1}, {1, 1, 0}};
+    Plane3D plane{triangle};
 
-    Vector needed_normal{-1.0f, 0.0f, 0.0f};
+    Vector3D needed_normal{-1.0f, 0.0f, 0.0f};
     float needed_distance = - (needed_normal.x * 1 + needed_normal.y * 0 + needed_normal.z * 0);
 
     ASSERT_NEAR(plane.distance, needed_distance, 0.0001f);
@@ -44,10 +44,10 @@ TEST(TestPlaneConstructorCorrectness, Subtest_3)
 
 TEST(TestPlaneConstructorCorrectness, Subtest_4)
 {
-    Triangle triangle{{0, 0, 0}, {1, 1, 1}, {2, 0, 2}};
-    Plane plane{triangle};
+    Triangle3D triangle{{0, 0, 0}, {1, 1, 1}, {2, 0, 2}};
+    Plane3D plane{triangle};
 
-    Vector needed_normal{2.0f, 0.0f, -2.0f};
+    Vector3D needed_normal{2.0f, 0.0f, -2.0f};
     float needed_distance = - (needed_normal.x * 0 + needed_normal.y * 0 + needed_normal.z * 0);
 
     ASSERT_NEAR(plane.distance, needed_distance, 0.0001f);
@@ -56,14 +56,14 @@ TEST(TestPlaneConstructorCorrectness, Subtest_4)
 
 TEST(TestIntersectionOfPlanes, Subtest_1_PlanesIntersect)
 {
-    Plane plane1{{1, 0, 0}, 1};
-    Plane plane2{{0, 1, 0}, 2};
-    Line line;
+    Plane3D plane1{{1, 0, 0}, 1};
+    Plane3D plane2{{0, 1, 0}, 2};
+    Line3D line;
 
     line = GetIntersectionLineOfPlanes(plane1, plane2);
 
-    Vector expected_distance{0, 0, 1};
-    Point expected_point{-1, -2, 0};
+    Vector3D expected_distance{0, 0, 1};
+    Point3D expected_point{-1, -2, 0};
 
     ASSERT_TRUE(line.distance.equal(expected_distance));
 
@@ -74,14 +74,14 @@ TEST(TestIntersectionOfPlanes, Subtest_1_PlanesIntersect)
 
 TEST(TestIntersectionOfPlanes, Subtest_4_GeneralCase)
 {
-    Plane plane1{{1, 2, -1}, 3};
-    Plane plane2{{-1, 0, 1}, -4};
-    Line line;
+    Plane3D plane1{{1, 2, -1}, 3};
+    Plane3D plane2{{-1, 0, 1}, -4};
+    Line3D line;
 
     line = GetIntersectionLineOfPlanes(plane1, plane2);
 
-    Vector expected_distance = Cross(plane1.normal, plane2.normal);
-    Point expected_point{-2, 0.5, 2};
+    Vector3D expected_distance = Cross(plane1.normal, plane2.normal);
+    Point3D expected_point{-2, 0.5, 2};
 
     ASSERT_TRUE(line.distance.equal(expected_distance));
 
@@ -91,8 +91,8 @@ TEST(TestIntersectionOfPlanes, Subtest_4_GeneralCase)
 }
 
 TEST(TestGetDistBetweenPlaneAndPoint, PointAbovePlane) {
-    Plane plane{{0, 0, 1}, -5};
-    Point point{0, 0, 6};
+    Plane3D plane{{0, 0, 1}, -5};
+    Point3D point{0, 0, 6};
 
     float distance = GetSignDistBetweenPlaneAndPoint(plane, point);
 
@@ -100,8 +100,8 @@ TEST(TestGetDistBetweenPlaneAndPoint, PointAbovePlane) {
 }
 
 TEST(TestGetDistBetweenPlaneAndPoint, PointBelowPlane) {
-    Plane plane{{0, 0, 1}, -5};
-    Point point{0, 0, 4};
+    Plane3D plane{{0, 0, 1}, -5};
+    Point3D point{0, 0, 4};
 
     float distance = GetSignDistBetweenPlaneAndPoint(plane, point);
 
@@ -109,8 +109,8 @@ TEST(TestGetDistBetweenPlaneAndPoint, PointBelowPlane) {
 }
 
 TEST(TestGetDistBetweenPlaneAndPoint, PointOnPlane) {
-    Plane plane{{0, 0, 1}, -5};
-    Point point{0, 0, 5};
+    Plane3D plane{{0, 0, 1}, -5};
+    Point3D point{0, 0, 5};
 
     float distance = GetSignDistBetweenPlaneAndPoint(plane, point);
 
@@ -118,8 +118,8 @@ TEST(TestGetDistBetweenPlaneAndPoint, PointOnPlane) {
 }
 
 TEST(TestGetDistBetweenPlaneAndPoint, ArbitraryPointAndPlane) {
-    Plane plane{{1, -1, 2}, -3};
-    Point point{4, 3, -2};
+    Plane3D plane{{1, -1, 2}, -3};
+    Point3D point{4, 3, -2};
 
     float distance = GetSignDistBetweenPlaneAndPoint(plane, point);
 
@@ -128,35 +128,35 @@ TEST(TestGetDistBetweenPlaneAndPoint, ArbitraryPointAndPlane) {
 }
 
 TEST(PlaneTests, EqualPlanesTest) {
-    Plane plane1{{1.0f, 2.0f, 3.0f}, -4.0f};
-    Plane plane2{{2.0f, 4.0f, 6.0f}, -8.0f};
+    Plane3D plane1{{1.0f, 2.0f, 3.0f}, -4.0f};
+    Plane3D plane2{{2.0f, 4.0f, 6.0f}, -8.0f};
 
     ASSERT_TRUE(plane1.equal(plane2));
 
-    Plane plane3{{1.0f, 2.0f, 3.0f}, -5.0f};
+    Plane3D plane3{{1.0f, 2.0f, 3.0f}, -5.0f};
 
     ASSERT_FALSE(plane1.equal(plane3));
 
-    Plane plane4{{1.0f, -2.0f, 3.0f}, -4.0f};
+    Plane3D plane4{{1.0f, -2.0f, 3.0f}, -4.0f};
 
     ASSERT_FALSE(plane1.equal(plane4));
 }
 
 TEST(PlaneTests, ParallelPlanesTest) {
-    Plane plane1{{1.0f, 2.0f, 3.0f}, -4.0f};
-    Plane plane2{{2.0f, 4.0f, 6.0f}, -10.0f};
+    Plane3D plane1{{1.0f, 2.0f, 3.0f}, -4.0f};
+    Plane3D plane2{{2.0f, 4.0f, 6.0f}, -10.0f};
 
     ASSERT_TRUE(plane1.parallel(plane2));
     ASSERT_FALSE(plane1.equal(plane2));
 
-    Plane plane3{{1.0f, 2.0f, 3.0f}, -4.0f};
-    Plane plane4{{2.0f, 4.0f, 6.0f}, -8.0f};
+    Plane3D plane3{{1.0f, 2.0f, 3.0f}, -4.0f};
+    Plane3D plane4{{2.0f, 4.0f, 6.0f}, -8.0f};
 
     ASSERT_TRUE(plane3.parallel(plane4));
     ASSERT_TRUE(plane3.equal(plane4));
 
-    Plane plane5{{1.0f, 0.0f, 0.0f}, -4.0f};
-    Plane plane6{{0.0f, 1.0f, 0.0f}, -4.0f};
+    Plane3D plane5{{1.0f, 0.0f, 0.0f}, -4.0f};
+    Plane3D plane6{{0.0f, 1.0f, 0.0f}, -4.0f};
 
     ASSERT_FALSE(plane5.parallel(plane6));
     ASSERT_FALSE(plane5.equal(plane6));

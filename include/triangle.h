@@ -2,20 +2,46 @@
 
 #include "point.h"
 
-class Triangle final
+//
+// Triangle3D Block
+//
+
+class Triangle3D final
 {
 public:
-    Triangle() = default;
-    Triangle(Point p0, Point p1, Point p2) : point0(p0), point1(p1), point2(p2) {}
+    Triangle3D() = default;
+    Triangle3D(Point3D p0, Point3D p1, Point3D p2) : point0(p0), point1(p1), point2(p2) {}
 
     bool valid() const;
-    bool equal(const Triangle& another_triangle) const;
+    bool equal(const Triangle3D& another_triangle) const;
 
     void print() const;
 
-    Point point0;
-    Point point1;
-    Point point2;
+    Point3D point0;
+    Point3D point1;
+    Point3D point2;
 };
 
-bool CheckTrianglesIntersection(Triangle& triangle0, Triangle& triangle1);
+bool CheckTrianglesIntersection(Triangle3D& triangle0, Triangle3D& triangle1);
+
+//
+// Triangle2D Block
+//
+
+class Triangle2D final
+{
+public:
+    Triangle2D() = default;
+    Triangle2D(Point2D p0, Point2D p1, Point2D p2) : point0(p0), point1(p1), point2(p2) {}
+
+    bool valid() const;
+    bool equal(const Triangle2D& another_triangle) const;
+
+    void print() const;
+
+    Point2D point0;
+    Point2D point1;
+    Point2D point2;
+};
+
+bool CheckTrianglesIntersection(const Triangle2D& triangle0, const Triangle2D& triangle1);

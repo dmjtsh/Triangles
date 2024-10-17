@@ -5,10 +5,10 @@
 
 #include <cmath>
 
-Plane::Plane(const Triangle& triangle)
+Plane3D::Plane3D(const Triangle3D& triangle)
 {
-    Vector a_b(triangle.point0, triangle.point1);
-    Vector a_c(triangle.point0, triangle.point2);
+    Vector3D a_b(triangle.point0, triangle.point1);
+    Vector3D a_c(triangle.point0, triangle.point2);
 
     normal = Cross(a_b, a_c);
 
@@ -16,7 +16,7 @@ Plane::Plane(const Triangle& triangle)
               - normal.z * triangle.point0.z;
 }
 
-bool Plane::equal(const Plane& another_plane) const
+bool Plane3D::equal(const Plane3D& another_plane) const
 {
     float ratio_a = normal.x / another_plane.normal.x;
     float ratio_b = normal.y / another_plane.normal.y;
@@ -28,7 +28,7 @@ bool Plane::equal(const Plane& another_plane) const
         && CheckFloatsEqual(ratio_b, ratio_d) && CheckFloatsEqual(ratio_c, ratio_d);
 }
 
-bool Plane::parallel(const Plane& another_plane) const
+bool Plane3D::parallel(const Plane3D& another_plane) const
 {
     float ratio_a = normal.x / another_plane.normal.x;
     float ratio_b = normal.y / another_plane.normal.y;
@@ -38,11 +38,11 @@ bool Plane::parallel(const Plane& another_plane) const
         && CheckFloatsEqual(ratio_b, ratio_c);
 }
 
-Line GetIntersectionLineOfPlanes(Plane& plane1, Plane& plane2)
+Line3D GetIntersectionLineOfPlanes(const Plane3D& plane1, const Plane3D& plane2)
 {
-    Line line;
+    Line3D line;
 
-    Vector cross_plane12 = Cross(plane1.normal, plane2.normal);
+    Vector3D cross_plane12 = Cross(plane1.normal, plane2.normal);
 
     line.distance = cross_plane12;
 
@@ -63,7 +63,7 @@ Line GetIntersectionLineOfPlanes(Plane& plane1, Plane& plane2)
     return line;
 }
 
-float GetSignDistBetweenPlaneAndPoint(Plane& plane, Point& point)
+float GetSignDistBetweenPlaneAndPoint(const Plane3D& plane, const Point3D& point)
 {
     float numerator   = plane.normal.x * point.x + plane.normal.y * point.y
     + plane.normal.z * point.z + plane.distance;

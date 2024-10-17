@@ -1,6 +1,6 @@
-#include <iostream>
-
 #include "interval.h"
+
+#include <iostream>
 
 bool Interval::overlap(const Interval& another_interval) const
 {

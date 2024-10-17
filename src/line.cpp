@@ -1,18 +1,18 @@
-#include <iostream>
-
 #include "point.h"
 #include "vector.h"
 #include "line.h"
 
-bool Line::valid() const { return distance.valid() && point.valid();}
+#include <iostream>
 
-void Line::print() const
+bool Line3D::valid() const { return distance.valid() && point.valid();}
+
+void Line3D::print() const
 {
     std::cout << "Distance: ";
 
     distance.print();
 
-    std::cout << "Point: ";
+    std::cout << "Point3D: ";
 
     point.print();
 }

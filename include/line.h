@@ -3,16 +3,16 @@
 #include "point.h"
 #include "vector.h"
 
-class Line final
+class Line3D final
 {
 public:
-    Line() = default;
-    Line(Vector d, Point p) : distance(d), point(p) {}
+    Line3D() = default;
+    Line3D(Vector3D d, Point3D p) : distance(d), point(p) {}
 
     bool valid() const;
 
     void print() const;
 
-    Vector distance;
-    Point point;
+    Vector3D distance;
+    Point3D point;
 };
