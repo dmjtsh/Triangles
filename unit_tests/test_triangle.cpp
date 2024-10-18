@@ -49,6 +49,78 @@ TEST(TestTriangleValid, InvalidTriangleWithInvalidPoints)
     ASSERT_FALSE(triangle.valid());
 }
 
+TEST(TestCheckTrianglesIntersection3D, SmallIntersection1)
+{
+    Triangle3D triangle1(Point3D(1, 1, 1), Point3D(2, 3, 4), Point3D(-1, 2, 3));
+    Triangle3D triangle2(Point3D(-2, 1, -1), Point3D(2, 3, 4), Point3D(-1, -2, 3));
+
+    ASSERT_TRUE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+
+TEST(TestCheckTrianglesIntersection3D, SmallIntersection2)
+{
+    Triangle3D triangle1(Point3D(1, 1, 1), Point3D(2, 3, 4), Point3D(-1, 2, 3));
+    Triangle3D triangle2(Point3D(-1, 1, -1), Point3D(1, 2, 2), Point3D(-1, -2, 3));
+
+    ASSERT_TRUE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+
+TEST(TestCheckTrianglesIntersection3D, NoIntersection1)
+{
+    Triangle3D triangle1(Point3D(1, 1, 1), Point3D(2, 3, 4), Point3D(-1, 2, 3));
+    Triangle3D triangle2(Point3D(-1, 1, -1), Point3D(1, -2, 2), Point3D(-1, -2, 3));
+
+    ASSERT_FALSE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+
+TEST(TestCheckTrianglesIntersection3D, NoIntersection2)
+{
+    Triangle3D triangle1(Point3D(5, 5, 5), Point3D(8, 6, 4), Point3D(-1, 2, 3));
+    Triangle3D triangle2(Point3D(1, 1, -1), Point3D(1, -2, 2), Point3D(-1, -2, 3));
+
+    ASSERT_FALSE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+
+TEST(TestCheckTrianglesIntersection3D, EdgeIntersection1)
+{
+    Triangle3D triangle1(Point3D(5, 5, 5), Point3D(8, 6, 4), Point3D(-1, -2, 3));
+    Triangle3D triangle2(Point3D(1, 1, -1), Point3D(5, 5, 5), Point3D(-1, -2, 3));
+
+    ASSERT_TRUE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+
+TEST(TestCheckTrianglesIntersection3D, VertexIntersection1)
+{
+    Triangle3D triangle1(Point3D(6, 6, 6), Point3D(8, 6, 4), Point3D(-1, -2, 3));
+    Triangle3D triangle2(Point3D(1, 1, -1), Point3D(5, 5, 5), Point3D(-1, -2, 3));
+
+    ASSERT_TRUE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+
+TEST(TestCheckTrianglesIntersection3D, ParallelTriangles1)
+{
+    Triangle3D triangle1(Point3D(6, 6, 6), Point3D(8, 6, 4), Point3D(-1, -2, 3));
+    Triangle3D triangle2(Point3D(7, 7, 7), Point3D(9, 7, 5), Point3D(0, -1, 4));
+
+    ASSERT_FALSE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+
+TEST(TestCheckTrianglesIntersection3D, EqualPlaneTriangles1)
+{
+    Triangle3D triangle1(Point3D(4, 4, 1), Point3D(2, 2, 1), Point3D(3, 4, 1));
+    Triangle3D triangle2(Point3D(3, 3, 1), Point3D(1, 2, 1), Point3D(2, 1, 1));
+
+    ASSERT_TRUE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+
+TEST(TestCheckTrianglesIntersection3D, EqualPlaneTriangles2)
+{
+    Triangle3D triangle1(Point3D(4, 4, 1), Point3D(2, 2, 1), Point3D(3, 4, 1));
+    Triangle3D triangle2(Point3D(1, 3, 1), Point3D(1, 2, 1), Point3D(2, 1, 1));
+
+    ASSERT_FALSE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+
 //
 // Triangle2D Tests
 //
@@ -91,46 +163,6 @@ TEST(TestTriangle2DValid, InvalidTriangleWithInvalidPoints)
     Triangle2D triangle(p1, p2, p3);
 
     ASSERT_FALSE(triangle.valid());
-}
-
-TEST(TestIsPointInTriangle, PointInsideTriangle)
-{
-    Triangle2D triangle(Point2D(0, 0), Point2D(5, 0), Point2D(2.5, 5));
-    Point2D point(2.5, 2);
-
-    ASSERT_TRUE(IsPointInTriangle(triangle, point));
-}
-
-TEST(TestIsPointInTriangle, PointOnTriangleEdge)
-{
-    Triangle2D triangle(Point2D(0, 0), Point2D(5, 0), Point2D(2.5, 5));
-    Point2D point(2.5, 0);
-
-    ASSERT_TRUE(IsPointInTriangle(triangle, point));
-}
-
-TEST(TestIsPointInTriangle, PointOutsideTriangle)
-{
-    Triangle2D triangle(Point2D(1, 1), Point2D(5, 0), Point2D(2.5, 5));
-    Point2D point(5, 2);
-
-    ASSERT_FALSE(IsPointInTriangle(triangle, point));
-}
-
-TEST(TestIsPointInTriangle, PointOnVertex)
-{
-    Triangle2D triangle(Point2D(0, 0), Point2D(5, 0), Point2D(2.5, 5));
-    Point2D point(5, 0);
-
-    ASSERT_TRUE(IsPointInTriangle(triangle, point));
-}
-
-TEST(TestIsPointInTriangle, PointOutsideFar)
-{
-    Triangle2D triangle(Point2D(0, 0), Point2D(5, 0), Point2D(2.5, 5));
-    Point2D point(10, 10);
-
-    ASSERT_FALSE(IsPointInTriangle(triangle, point));
 }
 
 TEST(TestCheckTrianglesIntersection2D, SmallIntersection)

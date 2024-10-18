@@ -16,6 +16,7 @@ public:
     Vector3D(float x, float y, float z) : x(x), y(y), z(z) {}
 
     float length() const;
+    void normalize();
 
     bool valid() const;
     bool equal(const Vector3D& another_vector) const;

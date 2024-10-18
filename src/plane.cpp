@@ -16,16 +16,32 @@ Plane3D::Plane3D(const Triangle3D& triangle)
               - normal.z * triangle.point0.z;
 }
 
+bool CheckEqualOrZero(float ratio_a, float ratio_b)
+{
+    if (CheckFloatsEqual(ratio_a, 0.0f) || CheckFloatsEqual(ratio_b, 0.0f)
+       || std::isnan(ratio_a) || std::isnan(ratio_b))
+    {
+        return true;
+    }
+    else if (!CheckFloatsEqual(ratio_a, 0.0f) && !CheckFloatsEqual(ratio_b, 0.0f))
+    {
+        return CheckFloatsEqual(ratio_a, ratio_b);
+    }
+
+    return false;
+}
+
 bool Plane3D::equal(const Plane3D& another_plane) const
 {
+
     float ratio_a = normal.x / another_plane.normal.x;
     float ratio_b = normal.y / another_plane.normal.y;
     float ratio_c = normal.z / another_plane.normal.z;
     float ratio_d = distance / another_plane.distance;
 
-    return CheckFloatsEqual(ratio_a, ratio_b) && CheckFloatsEqual(ratio_a, ratio_c)
-        && CheckFloatsEqual(ratio_a, ratio_d) && CheckFloatsEqual(ratio_b, ratio_c)
-        && CheckFloatsEqual(ratio_b, ratio_d) && CheckFloatsEqual(ratio_c, ratio_d);
+    return CheckEqualOrZero(ratio_a, ratio_b) && CheckEqualOrZero(ratio_a, ratio_c)
+        && CheckEqualOrZero(ratio_a, ratio_d) && CheckEqualOrZero(ratio_b, ratio_c)
+        && CheckEqualOrZero(ratio_b, ratio_d) && CheckEqualOrZero(ratio_c, ratio_d);
 }
 
 bool Plane3D::parallel(const Plane3D& another_plane) const
@@ -34,8 +50,8 @@ bool Plane3D::parallel(const Plane3D& another_plane) const
     float ratio_b = normal.y / another_plane.normal.y;
     float ratio_c = normal.z / another_plane.normal.z;
 
-    return CheckFloatsEqual(ratio_a, ratio_b) && CheckFloatsEqual(ratio_a, ratio_c)
-        && CheckFloatsEqual(ratio_b, ratio_c);
+    return CheckEqualOrZero(ratio_a, ratio_b) && CheckEqualOrZero(ratio_a, ratio_c)
+        && CheckEqualOrZero(ratio_b, ratio_c);
 }
 
 Line3D GetIntersectionLineOfPlanes(const Plane3D& plane1, const Plane3D& plane2)

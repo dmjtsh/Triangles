@@ -22,7 +22,7 @@ public:
     Point3D point2;
 };
 
-bool CheckTrianglesIntersection(Triangle3D& triangle0, Triangle3D& triangle1);
+bool CheckTrianglesIntersection(const Triangle3D& triangle0, const Triangle3D& triangle1);
 
 //
 // Triangle2D Block
@@ -45,5 +45,3 @@ public:
 };
 
 bool CheckTrianglesIntersection(Triangle2D& triangle0, Triangle2D& triangle1);
-
-bool IsPointInTriangle(const Triangle2D& triangle, const Point2D& point);

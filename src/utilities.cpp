@@ -9,9 +9,19 @@ bool CheckFloatsEqual(float f1, float f2)
 
 bool HasDifferentSign(float a, float b, float c)
 {
-    bool signA = std::signbit(a);
-    bool signB = std::signbit(b);
-    bool signC = std::signbit(c);
+    auto getSignCategory = [](float x) -> int
+    {
+        if (CheckFloatsEqual(x, 0.0f))
+            return 0;
+        else if (x > 0.0f)
+            return 1;
+        else
+            return -1;
+    };
+
+    int signA = getSignCategory(a);
+    int signB = getSignCategory(b);
+    int signC = getSignCategory(c);
 
     return (signA != signB) || (signA != signC) || (signB != signC);
 }

@@ -1,6 +1,16 @@
 #include "interval.h"
 
 #include <iostream>
+#include <cmath>
+
+Interval::Interval(float t0, float t1)
+{
+    float max_t01 = std::max(t0, t1);
+    float min_t01 = std::min(t0, t1);
+
+    this->t0 = min_t01;
+    this->t1 = max_t01;
+}
 
 bool Interval::overlap(const Interval& another_interval) const
 {

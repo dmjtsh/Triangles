@@ -50,21 +50,16 @@ bool CheckTrianglesIntersection(const Triangle3D& triangle0, const Triangle3D& t
         return false;
 
     Plane3D plane0 {triangle0};
-
-    float sign_dist_1_0 = GetSignDistBetweenPlaneAndPoint(plane0, triangle1.point0);
-    float sign_dist_1_1 = GetSignDistBetweenPlaneAndPoint(plane0, triangle1.point1);
-    float sign_dist_1_2 = GetSignDistBetweenPlaneAndPoint(plane0, triangle1.point2);
-
-    if(!HasDifferentSign(sign_dist_1_0, sign_dist_1_1, sign_dist_1_2))
-        return false;
-
     Plane3D plane1 {triangle1};
 
     if(plane0.parallel(plane1))
     {
         if(plane0.equal(plane1))
         {
-            if(CheckFloatsEqual(plane0.normal.x, plane1.normal.x))
+            plane0.normal.normalize();
+            plane1.normal.normalize();
+
+            if(CheckFloatsEqual(plane0.normal.x, plane1.normal.x) && !(CheckFloatsEqual(plane0.normal.x, 0)))
             {
                 Triangle2D triangle0_2D = Triangle2D {Point2D(triangle0.point0.y, triangle0.point0.z),
                                                       Point2D(triangle0.point1.y, triangle0.point1.z),
@@ -75,7 +70,8 @@ bool CheckTrianglesIntersection(const Triangle3D& triangle0, const Triangle3D& t
 
                 return CheckTrianglesIntersection(triangle0_2D, triangle1_2D);
             }
-            else if (CheckFloatsEqual(plane0.normal.y, plane1.normal.y))
+
+            if (CheckFloatsEqual(plane0.normal.y, plane1.normal.y) && !(CheckFloatsEqual(plane0.normal.y, 0)))
             {
                 Triangle2D triangle0_2D = Triangle2D {Point2D(triangle0.point0.x, triangle0.point0.z),
                                                       Point2D(triangle0.point1.x, triangle0.point1.z),
@@ -86,7 +82,8 @@ bool CheckTrianglesIntersection(const Triangle3D& triangle0, const Triangle3D& t
 
                 return CheckTrianglesIntersection(triangle0_2D, triangle1_2D);
             }
-            else if (CheckFloatsEqual(plane0.normal.z, plane1.normal.z))
+
+            if (CheckFloatsEqual(plane0.normal.z, plane1.normal.z) && !(CheckFloatsEqual(plane0.normal.z, 0)))
             {
                 Triangle2D triangle0_2D = Triangle2D {Point2D(triangle0.point0.y, triangle0.point0.x),
                                                       Point2D(triangle0.point1.y, triangle0.point1.x),
@@ -104,6 +101,14 @@ bool CheckTrianglesIntersection(const Triangle3D& triangle0, const Triangle3D& t
         }
     }
 
+    float sign_dist_1_0 = GetSignDistBetweenPlaneAndPoint(plane0, triangle1.point0);
+    float sign_dist_1_1 = GetSignDistBetweenPlaneAndPoint(plane0, triangle1.point1);
+    float sign_dist_1_2 = GetSignDistBetweenPlaneAndPoint(plane0, triangle1.point2);
+
+    if(!HasDifferentSign(sign_dist_1_0, sign_dist_1_1, sign_dist_1_2))
+        return false;
+
+
     float sign_dist_0_0 = GetSignDistBetweenPlaneAndPoint(plane1, triangle0.point0);
     float sign_dist_0_1 = GetSignDistBetweenPlaneAndPoint(plane1, triangle0.point1);
     float sign_dist_0_2 = GetSignDistBetweenPlaneAndPoint(plane1, triangle0.point2);
@@ -113,28 +118,27 @@ bool CheckTrianglesIntersection(const Triangle3D& triangle0, const Triangle3D& t
 
     Line3D int_line = GetIntersectionLineOfPlanes(plane0, plane1);
 
-    Interval interval0;
-    Interval interval1;
-
     float vec_proj_0_0 = Dot(int_line.distance, triangle0.point0 - int_line.point);
     float vec_proj_0_1 = Dot(int_line.distance, triangle0.point1 - int_line.point);
     float vec_proj_0_2 = Dot(int_line.distance, triangle0.point2 - int_line.point);
 
-    interval0.t0 = (vec_proj_0_0 + (vec_proj_0_2 - vec_proj_0_0) * sign_dist_0_0)
+    float t0 = vec_proj_0_0 + ((vec_proj_0_2 - vec_proj_0_0) * sign_dist_0_0)
                     / (sign_dist_0_0 - sign_dist_0_2);
-
-    interval0.t1 = (vec_proj_0_1 + (vec_proj_0_2 - vec_proj_0_1) * sign_dist_0_1)
+    float t1 = vec_proj_0_1 + ((vec_proj_0_2 - vec_proj_0_1) * sign_dist_0_1)
                     / (sign_dist_0_1 - sign_dist_0_2);
+
+    Interval interval0 {t0, t1};
 
     float vec_proj_1_0 = Dot(int_line.distance, triangle1.point0 - int_line.point);
     float vec_proj_1_1 = Dot(int_line.distance, triangle1.point1 - int_line.point);
     float vec_proj_1_2 = Dot(int_line.distance, triangle1.point2 - int_line.point);
 
-    interval1.t0 = (vec_proj_1_0 + (vec_proj_1_2 - vec_proj_1_0) * sign_dist_1_0)
+    t0 = vec_proj_1_0 + ((vec_proj_1_2 - vec_proj_1_0) * sign_dist_1_0)
                     / (sign_dist_1_0 - sign_dist_1_2);
-
-    interval1.t1 = (vec_proj_1_1 + (vec_proj_1_2 - vec_proj_1_1) * sign_dist_1_1)
+    t1 = vec_proj_1_1 + ((vec_proj_1_2 - vec_proj_1_1) * sign_dist_1_1)
                     / (sign_dist_1_1 - sign_dist_1_2);
+
+    Interval interval1 {t0, t1};
 
     return interval0.overlap(interval1);
 }
@@ -143,25 +147,6 @@ bool CheckTrianglesIntersection(const Triangle3D& triangle0, const Triangle3D& t
 // Triangle2D Block
 //
 
-bool IsPointInTriangle(const Triangle2D& triangle, const Point2D& point)
-{
-    Vector2D OA = Vector2D{point, triangle.point0};
-    Vector2D OB = Vector2D{point, triangle.point1};
-    Vector2D OC = Vector2D{point, triangle.point2};
-    Vector2D AB = Vector2D{triangle.point0, triangle.point1};
-    Vector2D CA = Vector2D{triangle.point2, triangle.point0};
-    Vector2D BC = Vector2D{triangle.point1, triangle.point2};
-
-    float OAxAB = Cross(OA, AB);
-    float OBxBC = Cross(OB, BC);
-    float OCxCA = Cross(OC, CA);
-
-    if(!HasDifferentSign(OAxAB, OBxBC, OCxCA) || point.equal(triangle.point0)
-    || point.equal(triangle.point1) || point.equal(triangle.point2))
-        return true;
-
-    return false;
-}
 
 inline double Det2D(const Triangle2D& triangle)
 {

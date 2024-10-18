@@ -6,7 +6,7 @@ class Interval final
 {
 public:
     Interval() = default;
-    Interval(float t0, float t1) : t0(t0), t1(t1) {}
+    Interval(float t0, float t1);
 
     bool overlap(const Interval& another_interval) const;
 

@@ -42,6 +42,14 @@ float Vector3D::length() const
     return std::sqrt(x*x + y*y + z*z);
 }
 
+void Vector3D::normalize()
+{
+    size_t length = this->length();
+    x = std::abs(x / length);
+    y = std::abs(y / length);
+    z = std::abs(z / length);
+}
+
 Vector3D Cross(const Vector3D& v1, const Vector3D& v2)
 {
     return Vector3D(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z,
