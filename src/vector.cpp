@@ -115,6 +115,11 @@ float Vector2D::length() const
     return std::sqrt(x * x + y * y);
 }
 
+float Cross(const Vector2D& v1, const Vector2D& v2)
+{
+    return v1.x*v2.y - v1.y*v2.x;
+}
+
 float Dot(const Vector2D& v1, const Vector2D& v2)
 {
     return v1.x*v2.x + v1.y*v2.y;

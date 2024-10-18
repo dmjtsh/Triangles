@@ -384,6 +384,31 @@ TEST(TestVectorAssignmentOperator2D, AssignNegativePointToVector)
     ASSERT_NEAR(vector.y, point.y, 0.0001f);
 }
 
+TEST(TestCrossProduct, CrossOfNonZeroVectors)
+{
+    Vector2D v1(3.0f, 2.0f);
+    Vector2D v2(1.0f, 4.0f);
+
+    float result = Cross(v1, v2);
+    ASSERT_NEAR(result, 10.0f, 1e-5); // 3*4 - 2*1 = 12 - 2 = 10
+}
+
+TEST(TestCrossProduct, CrossOfZeroVector)
+{
+    Vector2D v1(0.0f, 0.0f);
+    Vector2D v2(1.0f, 1.0f);
+    float result = Cross(v1, v2);
+    ASSERT_NEAR(result, 0.0f, 1e-5); // 0*1 - 0*1 = 0
+}
+
+TEST(TestCrossProduct, CrossOfOrthogonalVectors)
+{
+    Vector2D v1(1.0f, 0.0f);
+    Vector2D v2(0.0f, 1.0f);
+    float result = Cross(v1, v2);
+    ASSERT_NEAR(result, 1.0f, 1e-5); // 1*1 - 0*0 = 1
+}
+
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);

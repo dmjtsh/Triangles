@@ -4,6 +4,7 @@
 #include "plane.h"
 
 #include <iostream>
+#include <vector>
 #include <cmath>
 
 //
@@ -63,38 +64,39 @@ bool CheckTrianglesIntersection(const Triangle3D& triangle0, const Triangle3D& t
     {
         if(plane0.equal(plane1))
         {
-            if(plane0.normal.x == plane1.normal.x)
+            if(CheckFloatsEqual(plane0.normal.x, plane1.normal.x))
             {
-                Triangle2D triangle0_2D = Triangle2D (Point2D(triangle0.point0.y, triangle0.point0.z),
+                Triangle2D triangle0_2D = Triangle2D {Point2D(triangle0.point0.y, triangle0.point0.z),
                                                       Point2D(triangle0.point1.y, triangle0.point1.z),
-                                                      Point2D(triangle0.point2.y, triangle0.point2.z));
-                Triangle2D triangle1_2D = Triangle2D (Point2D(triangle1.point0.y, triangle1.point0.z),
+                                                      Point2D(triangle0.point2.y, triangle0.point2.z)};
+                Triangle2D triangle1_2D = Triangle2D {Point2D(triangle1.point0.y, triangle1.point0.z),
                                                       Point2D(triangle1.point1.y, triangle1.point1.z),
-                                                      Point2D(triangle1.point2.y, triangle1.point2.z));
+                                                      Point2D(triangle1.point2.y, triangle1.point2.z)};
 
                 return CheckTrianglesIntersection(triangle0_2D, triangle1_2D);
             }
-            else if (plane0.normal.y == plane1.normal.y)
+            else if (CheckFloatsEqual(plane0.normal.y, plane1.normal.y))
             {
-                Triangle2D triangle0_2D = Triangle2D (Point2D(triangle0.point0.x, triangle0.point0.z),
+                Triangle2D triangle0_2D = Triangle2D {Point2D(triangle0.point0.x, triangle0.point0.z),
                                                       Point2D(triangle0.point1.x, triangle0.point1.z),
-                                                      Point2D(triangle0.point2.x, triangle0.point2.z));
-                Triangle2D triangle1_2D = Triangle2D (Point2D(triangle1.point0.x, triangle1.point0.z),
+                                                      Point2D(triangle0.point2.x, triangle0.point2.z)};
+                Triangle2D triangle1_2D = Triangle2D {Point2D(triangle1.point0.x, triangle1.point0.z),
                                                       Point2D(triangle1.point1.x, triangle1.point1.z),
-                                                      Point2D(triangle1.point2.x, triangle1.point2.z));
+                                                      Point2D(triangle1.point2.x, triangle1.point2.z)};
 
                 return CheckTrianglesIntersection(triangle0_2D, triangle1_2D);
             }
-            else if (plane0.normal.z == plane1.normal.z)
+            else if (CheckFloatsEqual(plane0.normal.z, plane1.normal.z))
             {
-                Triangle2D triangle0_2D = Triangle2D (Point2D(triangle0.point0.y, triangle0.point0.x),
+                Triangle2D triangle0_2D = Triangle2D {Point2D(triangle0.point0.y, triangle0.point0.x),
                                                       Point2D(triangle0.point1.y, triangle0.point1.x),
-                                                      Point2D(triangle0.point2.y, triangle0.point2.x));
-                Triangle2D triangle1_2D = Triangle2D (Point2D(triangle1.point0.y, triangle1.point0.x),
+                                                      Point2D(triangle0.point2.y, triangle0.point2.x)};
+                Triangle2D triangle1_2D = Triangle2D {Point2D(triangle1.point0.y, triangle1.point0.x),
                                                       Point2D(triangle1.point1.y, triangle1.point1.x),
-                                                      Point2D(triangle1.point2.y, triangle1.point2.x));
+                                                      Point2D(triangle1.point2.y, triangle1.point2.x)};
 
-                return CheckTrianglesIntersection(triangle0_2D, triangle1_2D); }
+                return CheckTrianglesIntersection(triangle0_2D, triangle1_2D);
+            }
         }
         else
         {
@@ -141,17 +143,79 @@ bool CheckTrianglesIntersection(const Triangle3D& triangle0, const Triangle3D& t
 // Triangle2D Block
 //
 
-bool IsPointInTriangle(const Triangle3D& Triangle3D, const Point3D& point)
+bool IsPointInTriangle(const Triangle2D& triangle, const Point2D& point)
 {
-    //float p = Cross();
+    Vector2D OA = Vector2D{point, triangle.point0};
+    Vector2D OB = Vector2D{point, triangle.point1};
+    Vector2D OC = Vector2D{point, triangle.point2};
+    Vector2D AB = Vector2D{triangle.point0, triangle.point1};
+    Vector2D CA = Vector2D{triangle.point2, triangle.point0};
+    Vector2D BC = Vector2D{triangle.point1, triangle.point2};
+
+    float OAxAB = Cross(OA, AB);
+    float OBxBC = Cross(OB, BC);
+    float OCxCA = Cross(OC, CA);
+
+    if(!HasDifferentSign(OAxAB, OBxBC, OCxCA) || point.equal(triangle.point0)
+    || point.equal(triangle.point1) || point.equal(triangle.point2))
+        return true;
+
+    return false;
+}
+
+inline double Det2D(const Triangle2D& triangle)
+{
+    return triangle.point0.x * (triangle.point1.y- triangle.point2.y)
+         + triangle.point1.x * (triangle.point2.y - triangle.point0.y)
+         + triangle.point2.x * (triangle.point0.y - triangle.point1.y);
+}
+
+bool DoesPointLayOnExternalSide(const Point2D& triangle1_p0, const Point2D& triangle1_p1, const Point2D& triangle2_p)
+{
+    Triangle2D triangle = { triangle1_p0, triangle1_p1, triangle2_p };
+
+    return Det2D(triangle) < 0;
+}
+bool CheckSide(const Point2D& p0, const Point2D& p1, const Triangle2D& triangle)
+{
+    return DoesPointLayOnExternalSide(p0, p1, triangle.point0) &&
+           DoesPointLayOnExternalSide(p0, p1, triangle.point1) &&
+           DoesPointLayOnExternalSide(p0, p1, triangle.point2);
+}
+
+void CheckTriangleWinding(Triangle2D& triangle)
+{
+    if (Det2D(triangle) < 0.0)
+    {
+            Point2D tmp = triangle.point0;
+
+            triangle.point0 = triangle.point2;
+            triangle.point2 = tmp;
+    }
+}
+
+bool CheckTrianglesIntersection(Triangle2D& triangle0, Triangle2D& triangle1)
+{
+    CheckTriangleWinding(triangle0);
+    CheckTriangleWinding(triangle1);
+
+    if (CheckSide(triangle0.point0, triangle0.point1, triangle1) ||
+        CheckSide(triangle0.point1, triangle0.point2, triangle1) ||
+        CheckSide(triangle0.point2, triangle0.point0, triangle1))
+    {
+        return false;
+    }
+
+    if (CheckSide(triangle1.point0, triangle1.point1, triangle0) ||
+        CheckSide(triangle1.point1, triangle1.point2, triangle0) ||
+        CheckSide(triangle1.point2, triangle1.point0, triangle0))
+    {
+        return false;
+    }
 
     return true;
 }
 
-bool CheckTrianglesIntersection(const Triangle2D& triangle0, const Triangle2D& triangle1)
-{
-    return true;
-}
 
 void Triangle2D::print() const
 {

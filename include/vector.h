@@ -65,7 +65,7 @@ public:
     float y = NAN;
 };
 
-Vector2D Cross(const Vector2D& v1, const Vector2D& v2);
+float Cross(const Vector2D& v1, const Vector2D& v2);
 
 float Dot(const Vector2D& v1, const Vector2D& v2);
 

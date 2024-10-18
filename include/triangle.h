@@ -44,4 +44,6 @@ public:
     Point2D point2;
 };
 
-bool CheckTrianglesIntersection(const Triangle2D& triangle0, const Triangle2D& triangle1);
+bool CheckTrianglesIntersection(Triangle2D& triangle0, Triangle2D& triangle1);
+
+bool IsPointInTriangle(const Triangle2D& triangle, const Point2D& point);
