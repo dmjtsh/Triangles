@@ -30,14 +30,14 @@ bool Vector3D::equal(const Vector3D& another_vector) const
     if(!another_vector.valid())
         return false;
 
-    if (CheckFloatsEqual(x, another_vector.x) && CheckFloatsEqual(y, another_vector.y)
-    &&  CheckFloatsEqual(z, another_vector.z))
+    if (CheckDoublesEqual(x, another_vector.x) && CheckDoublesEqual(y, another_vector.y)
+    &&  CheckDoublesEqual(z, another_vector.z))
         return true;
 
     return false;
 }
 
-float Vector3D::length() const
+double Vector3D::length() const
 {
     return std::sqrt(x*x + y*y + z*z);
 }
@@ -57,12 +57,12 @@ Vector3D Cross(const Vector3D& v1, const Vector3D& v2)
             v1.x * v2.y - v1.y * v2.x);
 }
 
-float Dot(const Vector3D& v1, const Vector3D& v2)
+double Dot(const Vector3D& v1, const Vector3D& v2)
 {
     return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z;
 }
 
-float Dot(const Vector3D& v1, const Point3D& p2)
+double Dot(const Vector3D& v1, const Point3D& p2)
 {
     return v1.x*p2.x + v1.y*p2.y + v1.z*p2.z;
 }
@@ -84,7 +84,7 @@ void Vector3D::operator=(const Point3D& point)
     z = point.z;
 }
 
-Vector3D Vector3D::operator*(float scalar) const
+Vector3D Vector3D::operator*(double scalar) const
 {
     return Vector3D{x*scalar, y*scalar, z*scalar};
 }
@@ -116,20 +116,20 @@ bool Vector2D::equal(const Vector2D& another_vector) const
     if (!another_vector.valid())
         return false;
 
-    return CheckFloatsEqual(x, another_vector.x) && CheckFloatsEqual(y, another_vector.y);
+    return CheckDoublesEqual(x, another_vector.x) && CheckDoublesEqual(y, another_vector.y);
 }
 
-float Vector2D::length() const
+double Vector2D::length() const
 {
     return std::sqrt(x * x + y * y);
 }
 
-float Cross(const Vector2D& v1, const Vector2D& v2)
+double Cross(const Vector2D& v1, const Vector2D& v2)
 {
     return v1.x*v2.y - v1.y*v2.x;
 }
 
-float Dot(const Vector2D& v1, const Vector2D& v2)
+double Dot(const Vector2D& v1, const Vector2D& v2)
 {
     return v1.x*v2.x + v1.y*v2.y;
 }
@@ -144,7 +144,7 @@ Vector2D Vector2D::operator-(const Vector2D& vector) const
     return Vector2D{x - vector.x, y - vector.y};
 }
 
-Vector2D Vector2D::operator*(float scalar) const
+Vector2D Vector2D::operator*(double scalar) const
 {
     return Vector2D{x*scalar, y*scalar};
 }

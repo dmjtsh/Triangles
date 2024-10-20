@@ -1,9 +1,9 @@
 #pragma once
 
-const float FLOAT_TOLERANCE = 1e-9;
+constexpr inline double DOUBLE_TOLERANCE = 1e-9;
 
-bool CheckFloatsEqual(float f1, float f2);
+bool CheckDoublesEqual(double f1, double f2);
 
-bool CheckLessOrZero(float a, float b);
+bool CheckLessOrZero(double a, double b);
 
-bool HasDifferentSign(float a, float b, float c);
+bool HasDifferentSign(double a, double b, double c);

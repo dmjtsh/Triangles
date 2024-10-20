@@ -83,9 +83,9 @@ TEST(TestPointMinusCorrectness, Subtest_3)
 
 TEST(TestIsThreePointsOnOneLine, Subtest_1)
 {
-    Point3D p1(1.0f, 2.0f, 3.0f);
-    Point3D p2(2.0f, 4.0f, 6.0f);
-    Point3D p3(3.0f, 6.0f, 9.0f);
+    Point3D p1(1.0, 2.0, 3.0);
+    Point3D p2(2.0, 4.0, 6.0);
+    Point3D p3(3.0, 6.0, 9.0);
 
     bool result = IsThreePointsOnOneLine(p1, p2, p3);
 
@@ -94,9 +94,9 @@ TEST(TestIsThreePointsOnOneLine, Subtest_1)
 
 TEST(TestIsThreePointsOnOneLine, Subtest_2)
 {
-    Point3D p1(1.0f, 1.0f, 1.0f);
-    Point3D p2(2.0f, 2.0f, 2.0f);
-    Point3D p3(3.0f, 3.0f, 3.0f);
+    Point3D p1(1.0, 1.0, 1.0);
+    Point3D p2(2.0, 2.0, 2.0);
+    Point3D p3(3.0, 3.0, 3.0);
 
     bool result = IsThreePointsOnOneLine(p1, p2, p3);
 
@@ -105,9 +105,9 @@ TEST(TestIsThreePointsOnOneLine, Subtest_2)
 
 TEST(TestIsThreePointsOnOneLine, Subtest_3)
 {
-    Point3D p1(0.0f, 0.0f, 0.0f);
-    Point3D p2(1.0f, 1.0f, 1.0f);
-    Point3D p3(1.0f, 2.0f, 3.0f);
+    Point3D p1(0.0, 0.0, 0.0);
+    Point3D p2(1.0, 1.0, 1.0);
+    Point3D p3(1.0, 2.0, 3.0);
 
     bool result = IsThreePointsOnOneLine(p1, p2, p3);
 
@@ -116,9 +116,9 @@ TEST(TestIsThreePointsOnOneLine, Subtest_3)
 
 TEST(TestIsThreePointsOnOneLine, Subtest_4)
 {
-    Point3D p1(-1.0f, -1.0f, -1.0f);
-    Point3D p2(0.0f, 0.0f, 0.0f);
-    Point3D p3(1.0f, 1.0f, 1.0f);
+    Point3D p1(-1.0, -1.0, -1.0);
+    Point3D p2(0.0, 0.0, 0.0);
+    Point3D p3(1.0, 1.0, 1.0);
 
     bool result = IsThreePointsOnOneLine(p1, p2, p3);
 
@@ -127,9 +127,9 @@ TEST(TestIsThreePointsOnOneLine, Subtest_4)
 
 TEST(TestIsThreePointsOnOneLine3D, Subtest_5)
 {
-    Point3D p1(1.0f, 1.0f, 1.0f);
-    Point3D p2(2.0f, 2.0f, 2.0f);
-    Point3D p3(2.0f, 3.0f, 4.0f);
+    Point3D p1(1.0, 1.0, 1.0);
+    Point3D p2(2.0, 2.0, 2.0);
+    Point3D p3(2.0, 3.0, 4.0);
 
     bool result = IsThreePointsOnOneLine(p1, p2, p3);
 
@@ -138,9 +138,9 @@ TEST(TestIsThreePointsOnOneLine3D, Subtest_5)
 
 TEST(TestIsThreePointsOnOneLine3D, Subtest_6)
 {
-    Point3D p1(0.0f, 0.0f, 1.0f);
-    Point3D p2(0.0f, 0.0f, -1.0f);
-    Point3D p3(0.0f, 0.0f, 2.0f);
+    Point3D p1(0.0, 0.0, 1.0);
+    Point3D p2(0.0, 0.0, -1.0);
+    Point3D p3(0.0, 0.0, 2.0);
 
     bool result = IsThreePointsOnOneLine(p1, p2, p3);
 
@@ -249,9 +249,9 @@ TEST(TestPoint2DMinusCorrectness, Subtest_3)
 
 TEST(TestIsThreePointsOnOneLine2D, Subtest_1)
 {
-    Point2D p1(1.0f, 1.0f);
-    Point2D p2(2.0f, 2.0f);
-    Point2D p3(3.0f, 3.0f);
+    Point2D p1(1.0, 1.0);
+    Point2D p2(2.0, 2.0);
+    Point2D p3(3.0, 3.0);
 
     bool result = IsThreePointsOnOneLine(p1, p2, p3);
 
@@ -260,9 +260,9 @@ TEST(TestIsThreePointsOnOneLine2D, Subtest_1)
 
 TEST(TestIsThreePointsOnOneLine2D, Subtest_2)
 {
-    Point2D p1(1.0f, 2.0f);
-    Point2D p2(2.0f, 4.0f);
-    Point2D p3(3.0f, 5.0f);
+    Point2D p1(1.0, 2.0);
+    Point2D p2(2.0, 4.0);
+    Point2D p3(3.0, 5.0);
 
     bool result = IsThreePointsOnOneLine(p1, p2, p3);
 

@@ -11,12 +11,12 @@
 
 bool IsThreePointsOnOneLine(const Point3D& p1, const Point3D& p2, const Point3D& p3)
 {
-    float first_fraq  = (p3.x - p1.x)/(p2.x - p1.x);
-    float second_fraq = (p3.y - p1.y)/(p2.y - p1.y);
-    float third_fraq  = (p3.z - p1.z)/(p2.z - p1.z);
+    double first_fraq  = (p3.x - p1.x)/(p2.x - p1.x);
+    double second_fraq = (p3.y - p1.y)/(p2.y - p1.y);
+    double third_fraq  = (p3.z - p1.z)/(p2.z - p1.z);
 
-    return CheckFloatsEqual(first_fraq, second_fraq) && CheckFloatsEqual(second_fraq, third_fraq)
-        && CheckFloatsEqual(first_fraq, third_fraq);
+    return CheckDoublesEqual(first_fraq, second_fraq) && CheckDoublesEqual(second_fraq, third_fraq)
+        && CheckDoublesEqual(first_fraq, third_fraq);
 }
 
 void Point3D::print() const
@@ -31,8 +31,8 @@ bool Point3D::equal(const Point3D& another_point) const
     if(!another_point.valid())
         return false;
 
-    if (CheckFloatsEqual(x, another_point.x) && CheckFloatsEqual(y, another_point.x)
-    &&  CheckFloatsEqual(z, another_point.z))
+    if (CheckDoublesEqual(x, another_point.x) && CheckDoublesEqual(y, another_point.x)
+    &&  CheckDoublesEqual(z, another_point.z))
         return true;
 
     return false;
@@ -79,7 +79,7 @@ bool Point2D::equal(const Point2D& another_point) const
     if (!another_point.valid())
         return false;
 
-    return CheckFloatsEqual(x, another_point.x) && CheckFloatsEqual(y, another_point.y);
+    return CheckDoublesEqual(x, another_point.x) && CheckDoublesEqual(y, another_point.y);
 }
 
 Point2D Point2D::operator+(const Point2D& point) const

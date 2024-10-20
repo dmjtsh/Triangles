@@ -20,7 +20,7 @@ Plane3D::Plane3D(const Triangle3D& triangle)
 
 bool Plane3D::equal(const Plane3D& another_plane) const
 {
-    if (normal.equal(another_plane.normal) && CheckFloatsEqual(distance, another_plane.distance))
+    if (normal.equal(another_plane.normal) && CheckDoublesEqual(distance, another_plane.distance))
         return true;
 
     return false;
@@ -36,7 +36,7 @@ bool Plane3D::parallel(const Plane3D& another_plane) const
 
 void Plane3D::normalize_equation()
 {
-    float length = normal.length();
+    double length = normal.length();
 
     normal.x = normal.x / length;
     normal.y = normal.y / length;
@@ -44,7 +44,7 @@ void Plane3D::normalize_equation()
     distance = distance / length;
 
     if(CheckLessOrZero(normal.x, 0) && CheckLessOrZero(normal.y, 0)
-    && CheckLessOrZero(normal.z, 0) && CheckLessOrZero(distance, 0))
+    && CheckLessOrZero(normal.z, 0))
     {
         normal   = normal * -1;
         distance = distance * -1;
@@ -59,29 +59,29 @@ Line3D GetIntersectionLineOfPlanes(const Plane3D& plane1, const Plane3D& plane2)
 
     line.distance = cross_plane12;
 
-    float s1 = plane1.distance;
-    float s2 = plane2.distance;
+    double s1 = plane1.distance;
+    double s2 = plane2.distance;
 
-    float n1n2dot = Dot(plane1.normal, plane2.normal);
-    float n1n2dot_square = n1n2dot * n1n2dot;
+    double n1n2dot = Dot(plane1.normal, plane2.normal);
+    double n1n2dot_square = n1n2dot * n1n2dot;
 
-    float n1n1dot = Dot(plane1.normal, plane1.normal);
-    float n2n2dot = Dot(plane2.normal, plane2.normal);
+    double n1n1dot = Dot(plane1.normal, plane1.normal);
+    double n2n2dot = Dot(plane2.normal, plane2.normal);
 
-    float a = (s2 * n1n2dot - s1 * n2n2dot) / (n1n1dot * n2n2dot - n1n2dot_square);
-    float b = (s1 * n1n2dot - s2 * n1n1dot) / (n1n1dot * n2n2dot - n1n2dot_square);
+    double a = (s2 * n1n2dot - s1 * n2n2dot) / (n1n1dot * n2n2dot - n1n2dot_square);
+    double b = (s1 * n1n2dot - s2 * n1n1dot) / (n1n1dot * n2n2dot - n1n2dot_square);
 
     line.point = (plane1.normal * a) + (plane2.normal * b);
 
     return line;
 }
 
-float GetSignDistBetweenPlaneAndPoint(const Plane3D& plane, const Point3D& point)
+double GetSignDistBetweenPlaneAndPoint(const Plane3D& plane, const Point3D& point)
 {
-    float numerator   = plane.normal.x * point.x + plane.normal.y * point.y
+    double numerator   = plane.normal.x * point.x + plane.normal.y * point.y
     + plane.normal.z * point.z + plane.distance;
 
-    float denominator = std::sqrt(std::pow(plane.normal.x, 2)
+    double denominator = std::sqrt(std::pow(plane.normal.x, 2)
     + std::pow(plane.normal.y, 2) + std::pow(plane.normal.z, 2));
 
     return numerator / denominator;

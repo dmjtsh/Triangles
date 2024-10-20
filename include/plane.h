@@ -11,7 +11,7 @@ class Plane3D final
 {
 public:
     Plane3D() = default;
-    Plane3D(const Vector3D& n, float d) : normal(n), distance(d) { normalize_equation(); }
+    Plane3D(const Vector3D& n, double d) : normal(n), distance(d) { normalize_equation(); }
     Plane3D(const Triangle3D& triangle);
 
     void normalize_equation();
@@ -19,9 +19,9 @@ public:
     bool parallel(const Plane3D& another_plane) const;
 
     Vector3D normal;
-    float distance;
+    double distance;
 };
 
 Line3D GetIntersectionLineOfPlanes(const Plane3D& plane1, const Plane3D& plane2);
 
-float GetSignDistBetweenPlaneAndPoint(const Plane3D& plane, const Point3D& point);
+double GetSignDistBetweenPlaneAndPoint(const Plane3D& plane, const Point3D& point);

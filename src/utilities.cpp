@@ -2,26 +2,26 @@
 
 #include <cmath>
 
-bool CheckFloatsEqual(float f1, float f2)
+bool CheckDoublesEqual(double d1, double d2)
 {
-    return (std::abs(f1-f2)) < FLOAT_TOLERANCE;;
+    return (std::abs(d1 - d2)) < DOUBLE_TOLERANCE;
 }
 
-bool CheckLessOrZero(float a, float b)
+bool CheckLessOrZero(double a, double b)
 {
-    if ( a < b || (CheckFloatsEqual(a, 0.0f) && CheckFloatsEqual(b, 0.0f)))
+    if ( a < b || (CheckDoublesEqual(a, 0.0) && CheckDoublesEqual(b, 0.0)))
         return true;
 
     return false;
 }
 
-bool HasDifferentSign(float a, float b, float c)
+bool HasDifferentSign(double a, double b, double c)
 {
-    auto getSignCategory = [](float x) -> int
+    auto getSignCategory = [](double x) -> int
     {
-        if (CheckFloatsEqual(x, 0.0f))
+        if (CheckDoublesEqual(x, 0.0))
             return 0;
-        else if (x > 0.0f)
+        else if (x > 0.0)
             return 1;
         else
             return -1;

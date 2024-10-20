@@ -1,12 +1,13 @@
 #include "interval.h"
+#include "utilities.h"
 
 #include <iostream>
 #include <cmath>
 
-Interval::Interval(float t0, float t1)
+Interval::Interval(double t0, double t1)
 {
-    float max_t01 = std::max(t0, t1);
-    float min_t01 = std::min(t0, t1);
+    double max_t01 = std::max(t0, t1);
+    double min_t01 = std::min(t0, t1);
 
     this->t0 = min_t01;
     this->t1 = max_t01;
@@ -14,7 +15,7 @@ Interval::Interval(float t0, float t1)
 
 bool Interval::overlap(const Interval& another_interval) const
 {
-    return !(t1 < another_interval.t0 || another_interval.t1 < t0);
+    return !(t1 + DOUBLE_TOLERANCE < another_interval.t0  || another_interval.t1 + DOUBLE_TOLERANCE < t0);
 }
 
 bool Interval::valid() const { return !std::isnan(t0) && !std::isnan(t1); }
