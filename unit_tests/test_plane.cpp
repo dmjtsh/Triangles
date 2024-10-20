@@ -11,7 +11,7 @@ TEST(TestPlaneConstructorCorrectness, Subtest_1)
     Triangle3D triangle{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
     Plane3D plane{triangle};
 
-    Vector3D needed_normal{1.0f, 1.0f, 1.0f};
+    Vector3D needed_normal{0.577350259f, 0.577350259f, 0.577350259f};
     float needed_distance = - (needed_normal.x * 1 + needed_normal.y * 0 + needed_normal.z * 0);
 
     ASSERT_NEAR(plane.distance, needed_distance, 0.0001f);
@@ -23,7 +23,7 @@ TEST(TestPlaneConstructorCorrectness, Subtest_2)
     Triangle3D triangle{{1, 1, 1}, {2, 3, 1}, {3, 1, 2}};
     Plane3D plane{triangle};
 
-    Vector3D needed_normal{2.0f, -1.0f, -4.0f};
+    Vector3D needed_normal{0.436435759f, -0.21821788, -0.872871518};
     float needed_distance = - (needed_normal.x * 1 + needed_normal.y * 1 + needed_normal.z * 1);
 
     ASSERT_NEAR(plane.distance, needed_distance, 0.0001f);
@@ -47,7 +47,7 @@ TEST(TestPlaneConstructorCorrectness, Subtest_4)
     Triangle3D triangle{{0, 0, 0}, {1, 1, 1}, {2, 0, 2}};
     Plane3D plane{triangle};
 
-    Vector3D needed_normal{2.0f, 0.0f, -2.0f};
+    Vector3D needed_normal{0.707106769f, 0.0f, -0.707106769};
     float needed_distance = - (needed_normal.x * 0 + needed_normal.y * 0 + needed_normal.z * 0);
 
     ASSERT_NEAR(plane.distance, needed_distance, 0.0001f);

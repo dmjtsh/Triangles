@@ -11,9 +11,10 @@ class Plane3D final
 {
 public:
     Plane3D() = default;
-    Plane3D(const Vector3D& n, float d) : normal(n), distance(d) {}
+    Plane3D(const Vector3D& n, float d) : normal(n), distance(d) { normalize_equation(); }
     Plane3D(const Triangle3D& triangle);
 
+    void normalize_equation();
     bool equal(const Plane3D& another_plane) const;
     bool parallel(const Plane3D& another_plane) const;
 

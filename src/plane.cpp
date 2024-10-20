@@ -14,44 +14,41 @@ Plane3D::Plane3D(const Triangle3D& triangle)
 
     distance = -normal.x * triangle.point0.x - normal.y * triangle.point0.y
               - normal.z * triangle.point0.z;
-}
 
-bool CheckEqualOrZero(float ratio_a, float ratio_b)
-{
-    if (CheckFloatsEqual(ratio_a, 0.0f) || CheckFloatsEqual(ratio_b, 0.0f)
-       || std::isnan(ratio_a) || std::isnan(ratio_b))
-    {
-        return true;
-    }
-    else if (!CheckFloatsEqual(ratio_a, 0.0f) && !CheckFloatsEqual(ratio_b, 0.0f))
-    {
-        return CheckFloatsEqual(ratio_a, ratio_b);
-    }
-
-    return false;
+    normalize_equation();
 }
 
 bool Plane3D::equal(const Plane3D& another_plane) const
 {
+    if (normal.equal(another_plane.normal) && CheckFloatsEqual(distance, another_plane.distance))
+        return true;
 
-    float ratio_a = normal.x / another_plane.normal.x;
-    float ratio_b = normal.y / another_plane.normal.y;
-    float ratio_c = normal.z / another_plane.normal.z;
-    float ratio_d = distance / another_plane.distance;
-
-    return CheckEqualOrZero(ratio_a, ratio_b) && CheckEqualOrZero(ratio_a, ratio_c)
-        && CheckEqualOrZero(ratio_a, ratio_d) && CheckEqualOrZero(ratio_b, ratio_c)
-        && CheckEqualOrZero(ratio_b, ratio_d) && CheckEqualOrZero(ratio_c, ratio_d);
+    return false;
 }
 
 bool Plane3D::parallel(const Plane3D& another_plane) const
 {
-    float ratio_a = normal.x / another_plane.normal.x;
-    float ratio_b = normal.y / another_plane.normal.y;
-    float ratio_c = normal.z / another_plane.normal.z;
+    if (normal.equal(another_plane.normal))
+        return true;
 
-    return CheckEqualOrZero(ratio_a, ratio_b) && CheckEqualOrZero(ratio_a, ratio_c)
-        && CheckEqualOrZero(ratio_b, ratio_c);
+    return false;
+}
+
+void Plane3D::normalize_equation()
+{
+    float length = normal.length();
+
+    normal.x = normal.x / length;
+    normal.y = normal.y / length;
+    normal.z = normal.z / length;
+    distance = distance / length;
+
+    if(CheckLessOrZero(normal.x, 0) && CheckLessOrZero(normal.y, 0)
+    && CheckLessOrZero(normal.z, 0) && CheckLessOrZero(distance, 0))
+    {
+        normal   = normal * -1;
+        distance = distance * -1;
+    }
 }
 
 Line3D GetIntersectionLineOfPlanes(const Plane3D& plane1, const Plane3D& plane2)

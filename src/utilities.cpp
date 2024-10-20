@@ -7,6 +7,14 @@ bool CheckFloatsEqual(float f1, float f2)
     return (std::abs(f1-f2)) < FLOAT_TOLERANCE;;
 }
 
+bool CheckLessOrZero(float a, float b)
+{
+    if ( a < b || (CheckFloatsEqual(a, 0.0f) && CheckFloatsEqual(b, 0.0f)))
+        return true;
+
+    return false;
+}
+
 bool HasDifferentSign(float a, float b, float c)
 {
     auto getSignCategory = [](float x) -> int

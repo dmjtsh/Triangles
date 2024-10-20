@@ -56,9 +56,6 @@ bool CheckTrianglesIntersection(const Triangle3D& triangle0, const Triangle3D& t
     {
         if(plane0.equal(plane1))
         {
-            plane0.normal.normalize();
-            plane1.normal.normalize();
-
             if(CheckFloatsEqual(plane0.normal.x, plane1.normal.x) && !(CheckFloatsEqual(plane0.normal.x, 0)))
             {
                 Triangle2D triangle0_2D = Triangle2D {Point2D(triangle0.point0.y, triangle0.point0.z),
@@ -107,7 +104,6 @@ bool CheckTrianglesIntersection(const Triangle3D& triangle0, const Triangle3D& t
 
     if(!HasDifferentSign(sign_dist_1_0, sign_dist_1_1, sign_dist_1_2))
         return false;
-
 
     float sign_dist_0_0 = GetSignDistBetweenPlaneAndPoint(plane1, triangle0.point0);
     float sign_dist_0_1 = GetSignDistBetweenPlaneAndPoint(plane1, triangle0.point1);
