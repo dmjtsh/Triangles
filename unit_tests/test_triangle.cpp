@@ -97,6 +97,14 @@ TEST(TestCheckTrianglesIntersection3D, VertexIntersection1)
     ASSERT_TRUE(CheckTrianglesIntersection(triangle1, triangle2));
 }
 
+TEST(TestCheckTrianglesIntersection3D, VertexIntersection2)
+{
+    Triangle3D triangle1(Point3D(5, 4, 3), Point3D(1, 1, 2), Point3D(2, 4, 3));
+    Triangle3D triangle2(Point3D(3, 3, 2), Point3D(1, 1, 2), Point3D(1, 1, 0));
+
+    ASSERT_TRUE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+
 TEST(TestCheckTrianglesIntersection3D, ParallelTriangles1)
 {
     Triangle3D triangle1(Point3D(6, 6, 6), Point3D(8, 6, 4), Point3D(-1, -2, 3));
@@ -117,6 +125,38 @@ TEST(TestCheckTrianglesIntersection3D, EqualPlaneTriangles2)
 {
     Triangle3D triangle1(Point3D(4, 4, 1), Point3D(2, 2, 1), Point3D(3, 4, 1));
     Triangle3D triangle2(Point3D(1, 3, 1), Point3D(1, 2, 1), Point3D(2, 1, 1));
+
+    ASSERT_FALSE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+
+TEST(TestCheckTrianglesIntersection3D, EqualPlaneTriangles3)
+{
+    Triangle3D triangle1(Point3D(4, 4, 1), Point3D(2, 2, 1), Point3D(3, 4, 1));
+    Triangle3D triangle2(Point3D(1, 3, 1), Point3D(1, 2, 1), Point3D(2, 2, 1));
+
+    ASSERT_TRUE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+
+TEST(TestCheckTrianglesIntersection3D, PerpendicularTriangles1)
+{
+    Triangle3D triangle1(Point3D(4, 4, 1), Point3D(2.5, 2.5, 1), Point3D(3, 4, 1));
+    Triangle3D triangle2(Point3D(3, 3, 2), Point3D(1, 1, 2), Point3D(1, 1, 0));
+
+    ASSERT_FALSE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+
+TEST(TestCheckTrianglesIntersection3D, PerpendicularTriangles2)
+{
+    Triangle3D triangle1(Point3D(5, 4, 1), Point3D(1, 1, 1), Point3D(2, 4, 1));
+    Triangle3D triangle2(Point3D(3, 3, 2), Point3D(1, 1, 2), Point3D(1, 1, 0));
+
+    ASSERT_TRUE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+
+TEST(TestCheckTrianglesIntersection3D, PerpendicularTriangles3)
+{
+    Triangle3D triangle1(Point3D(5, 4, 3), Point3D(1, 1, 3), Point3D(2, 4, 3));
+    Triangle3D triangle2(Point3D(3, 3, 2), Point3D(1, 1, 2), Point3D(1, 1, 0));
 
     ASSERT_FALSE(CheckTrianglesIntersection(triangle1, triangle2));
 }
