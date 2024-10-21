@@ -39,9 +39,9 @@ void PrintIntersectingTrianglesNums(std::istream& input)
     BoundingBox initial_box(min_point, max_point);
     OctTree octree(initial_box, triangles);
 
-    octree.BuildTree();
+    octree.build_tree();
 
-    std::unordered_set<size_t> intersecting_triangles = octree.GetIntersection(triangles);
+    std::unordered_set<size_t> intersecting_triangles = octree.get_intersection(triangles);
 
     for (const auto& num : intersecting_triangles)
     {

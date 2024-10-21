@@ -65,7 +65,7 @@ TEST(OctTreeTest, BuildTree_EmptyTree)
     BoundingBox bounding_box(Vector3D(0, 0, 0), Vector3D(10, 10, 10));
     OctTree octree(bounding_box, triangles);
 
-    octree.BuildTree();
+    octree.build_tree();
 }
 
 TEST(OctTreeTest, BuildTree_SingleTriangle)
@@ -76,7 +76,7 @@ TEST(OctTreeTest, BuildTree_SingleTriangle)
     BoundingBox bounding_box(Vector3D(0, 0, 0), Vector3D(10, 10, 10));
     OctTree octree(bounding_box, triangles);
 
-    octree.BuildTree();
+    octree.build_tree();
 }
 
 TEST(OctTreeTest, BuildTree_MultipleTriangles)
@@ -88,7 +88,7 @@ TEST(OctTreeTest, BuildTree_MultipleTriangles)
     BoundingBox bounding_box(Vector3D(0, 0, 0), Vector3D(10, 10, 10));
     OctTree octree(bounding_box, triangles);
 
-    octree.BuildTree();
+    octree.build_tree();
 }
 
 TEST(OctTreeTest, GetIntersection_NoIntersection)
@@ -102,8 +102,8 @@ TEST(OctTreeTest, GetIntersection_NoIntersection)
     BoundingBox bounding_box(Vector3D(0, 0, 0), Vector3D(10, 10, 10));
     OctTree octree(bounding_box, local_triangles);
 
-    octree.BuildTree();
-    std::unordered_set<size_t> intersections = octree.GetIntersection();
+    octree.build_tree();
+    std::unordered_set<size_t> intersections = octree.get_intersection();
 
     ASSERT_EQ(intersections.size(), 0);
 }
@@ -119,8 +119,8 @@ TEST(OctTreeTest, GetIntersection_InvalidTriangle)
     BoundingBox bounding_box(Vector3D(0, 0, 0), Vector3D(10, 10, 10));
     OctTree octree(bounding_box, local_triangles);
 
-    octree.BuildTree();
-    std::unordered_set<size_t> intersections = octree.GetIntersection();
+    octree.build_tree();
+    std::unordered_set<size_t> intersections = octree.get_intersection();
 
     ASSERT_EQ(intersections.size(), 0);
 }
@@ -134,8 +134,8 @@ TEST(OctTreeTest, GetIntersection_SelfIntersection)
     BoundingBox bounding_box(Vector3D(0, 0, 0), Vector3D(10, 10, 10));
     OctTree octree(bounding_box, local_triangles);
 
-    octree.BuildTree();
-    std::unordered_set<size_t> intersections = octree.GetIntersection();
+    octree.build_tree();
+    std::unordered_set<size_t> intersections = octree.get_intersection();
 
     ASSERT_EQ(intersections.size(), 2);
 }
@@ -152,7 +152,7 @@ TEST(OctTreeTest, GetIntersection_MultipleIntersections1)
     BoundingBox bounding_box(Vector3D(0, 0, 0), Vector3D(10, 10, 10));
     OctTree octree(bounding_box, local_triangles);
 
-    std::unordered_set<size_t> intersections = octree.GetIntersection();
+    std::unordered_set<size_t> intersections = octree.get_intersection();
 
     ASSERT_EQ(intersections.size(), 2);
 }

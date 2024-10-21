@@ -38,8 +38,8 @@ public:
     OctTree(const BoundingBox& bounding_box, const std::list<TriangleWithNum>& local_triangles);
     ~OctTree();
 
-    void BuildTree();
+    void build_tree();
 
-    std::unordered_set<size_t> GetIntersection(std::list<TriangleWithNum>& parent_triangles);
-    std::unordered_set<size_t> GetIntersection();
+    std::unordered_set<size_t> get_intersection(std::list<TriangleWithNum>& parent_triangles);
+    std::unordered_set<size_t> get_intersection();
 };

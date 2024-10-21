@@ -38,7 +38,7 @@ OctTree::~OctTree()
     }
 }
 
-void OctTree::BuildTree()
+void OctTree::build_tree()
 {
     if(local_triangles.size() <= 1)
         return;
@@ -77,8 +77,10 @@ void OctTree::BuildTree()
                 if(octant[i].contains_triangle(local_triangle->triangle))
                 {
                     oct_lists[i].push_back(*local_triangle);
+
+                    auto next_triangle = std::next(local_triangle);
                     local_triangles.erase(local_triangle);
-                    i--;
+                    local_triangle = next_triangle;
 
                     break;
                 }
@@ -91,12 +93,12 @@ void OctTree::BuildTree()
         if (oct_lists[i].size() != 0)
         {
             children_nodes[i] = new OctTree(octant[i], oct_lists[i]);
-            children_nodes[i]->BuildTree();
+            children_nodes[i]->build_tree();
         }
     }
 }
 
-std::unordered_set<size_t> OctTree::GetIntersection(std::list<TriangleWithNum>& parent_triangles)
+std::unordered_set<size_t> OctTree::get_intersection(std::list<TriangleWithNum>& parent_triangles)
 {
     std::unordered_set<size_t> intersections;
 
@@ -130,7 +132,7 @@ std::unordered_set<size_t> OctTree::GetIntersection(std::list<TriangleWithNum>& 
     {
         if(children_nodes[i] && children_nodes[i]->local_triangles.size() > 0)
         {
-            std::unordered_set<size_t> new_intersections = GetIntersection(parent_triangles);
+            std::unordered_set<size_t> new_intersections = children_nodes[i]->get_intersection(parent_triangles);
             intersections.insert(new_intersections.begin(), new_intersections.end());
         }
     }
@@ -138,8 +140,8 @@ std::unordered_set<size_t> OctTree::GetIntersection(std::list<TriangleWithNum>& 
     return intersections;
 }
 
-std::unordered_set<size_t> OctTree::GetIntersection()
+std::unordered_set<size_t> OctTree::get_intersection()
 {
     std::list<TriangleWithNum> parent_triangles;
-    return GetIntersection(parent_triangles);
+    return get_intersection(parent_triangles);
 }
