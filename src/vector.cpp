@@ -154,3 +154,4 @@ void Vector2D::operator=(const Point2D& point)
     x = point.x;
     y = point.y;
 }
+

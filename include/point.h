@@ -22,6 +22,7 @@ public:
     Point3D operator+(const Point3D& point) const;
     Point3D operator-(const Point3D& point) const;
     void  operator=(const Vector3D& vector);
+    operator Vector3D() const;
 
     double x = NAN;
     double y = NAN;

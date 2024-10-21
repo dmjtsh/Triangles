@@ -55,6 +55,11 @@ void Point3D::operator=(const Vector3D& vector)
     z = vector.z;
 }
 
+Point3D::operator Vector3D() const
+{
+    return Vector3D(x, y, z);
+}
+
 //
 // Point2D BLOCK
 //
@@ -97,4 +102,3 @@ void Point2D::operator=(const Vector2D& vector)
     x = vector.x;
     y = vector.y;
 }
-
