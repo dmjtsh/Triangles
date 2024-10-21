@@ -34,13 +34,12 @@ class OctTree final
 
     const double MIN_OCTANT_SIZE = 1;
 public:
-    OctTree() {}
-    OctTree(const BoundingBox& bounding_box, const std::list<TriangleWithNum>& local_triangles)
-    : boundary(bounding_box), local_triangles(local_triangles) {}
-
-    ~OctTree() { for (int i = 0; i < 8; i++) { delete children_nodes[i]; } }
+    OctTree();
+    OctTree(const BoundingBox& bounding_box, const std::list<TriangleWithNum>& local_triangles);
+    ~OctTree();
 
     void BuildTree();
 
     std::unordered_set<size_t> GetIntersection(std::list<TriangleWithNum>& parent_triangles);
+    std::unordered_set<size_t> GetIntersection();
 };

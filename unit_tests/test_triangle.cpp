@@ -81,6 +81,14 @@ TEST(TestCheckTrianglesIntersection3D, NoIntersection2)
     ASSERT_FALSE(CheckTrianglesIntersection(triangle1, triangle2));
 }
 
+TEST(TestCheckTrianglesIntersection3D, NoIntersection3)
+{
+    Triangle3D triangle1(Point3D(-2, -5, 4), Point3D(7, 8, 9), Point3D(3, 3, 3));
+    Triangle3D triangle2(Point3D(2, -5, 4), Point3D(-7, -8, -9), Point3D(-3, -3, -3));
+
+    ASSERT_FALSE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+
 TEST(TestCheckTrianglesIntersection3D, EdgeIntersection1)
 {
     Triangle3D triangle1(Point3D(5, 5, 5), Point3D(8, 6, 4), Point3D(-1, -2, 3));
@@ -160,6 +168,30 @@ TEST(TestCheckTrianglesIntersection3D, PerpendicularTriangles3)
 
     ASSERT_FALSE(CheckTrianglesIntersection(triangle1, triangle2));
 }
+
+TEST(TestCheckTrianglesIntersection3D, PerpendicularTriangles4)
+{
+    Triangle3D triangle1(Point3D(-2, -5, 4), Point3D(7, 8, 9), Point3D(3, 3, 3));
+    Triangle3D triangle2(Point3D(2, -5, 7), Point3D(-7, -8, -2), Point3D(-3, -3, 4));
+
+    ASSERT_TRUE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+TEST(TestCheckTrianglesIntersection3D, PerpendicularTriangles5)
+{
+    Triangle3D tr1 {Point3D(0, -0.5, 0), Point3D(0, 0.5, 0), Point3D(0, 0, 0.5)};
+    Triangle3D tr2 {Point3D(0.25, 0, 0.25), Point3D(-0.25, 0, 0.25), Point3D(0, 0, 1)};
+
+    ASSERT_TRUE(CheckTrianglesIntersection(tr1, tr2));
+}
+
+TEST(TestCheckTrianglesIntersection3D, PerpendicularTriangles6)
+{
+    Triangle3D triangle1(Point3D(3, 3, 1), Point3D(1, 0.5, 1), Point3D(3, 4, 1));
+    Triangle3D triangle2(Point3D(3, 3, 2), Point3D(1, 1, 2), Point3D(1, 1, 0));
+
+    ASSERT_TRUE(CheckTrianglesIntersection(triangle1, triangle2));
+}
+
 
 //
 // Triangle2D Tests

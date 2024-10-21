@@ -147,6 +147,28 @@ TEST(TestIsThreePointsOnOneLine3D, Subtest_6)
     ASSERT_FALSE(result);
 }
 
+TEST(TestIsThreePointsOnOneLine3D, Subtest_7)
+{
+    Point3D p1(3.0, 3.0, 2.0);
+    Point3D p2(1.0, 1.0, 2.0);
+    Point3D p3(1.0, 1.0, 0.0);
+
+    bool result = IsThreePointsOnOneLine(p1, p2, p3);
+
+    ASSERT_FALSE(result);
+}
+
+TEST(TestIsThreePointsOnOneLine3D, Subtest_8)
+{
+    Point3D p1(3.0, 3.0, 1.0);
+    Point3D p2(1.0, 0.5, 1.0);
+    Point3D p3(3.0, 4.0, 1.0);
+
+    bool result = IsThreePointsOnOneLine(p1, p2, p3);
+
+    ASSERT_FALSE(result);
+}
+
 TEST(TestPointAssignmentOperator, AssignVectorToPoint)
 {
     Vector3D vector(3.5, -2.5, 4.0);

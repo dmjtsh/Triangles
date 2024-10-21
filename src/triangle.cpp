@@ -44,6 +44,51 @@ bool Triangle3D::equal(const Triangle3D& another_triangle) const
     return false;
 }
 
+Interval ComputeInterval(double vec_proj0, double vec_proj1, double vec_proj2,
+	                     double sign_dist0, double sign_dist1, double sign_dist2)
+{
+    double denominator = sign_dist0 / (sign_dist0 - sign_dist1);
+    double t0  = vec_proj0 + (vec_proj1 - vec_proj0) * denominator;
+
+    denominator = sign_dist0 / (sign_dist0 - sign_dist2);
+
+    double t1 = vec_proj0 + (vec_proj2 - vec_proj0) * denominator;
+
+    return Interval(t0, t1);
+}
+
+Interval ComputeTriangleInterval(double vec_proj0, double vec_proj1, double vec_proj2,
+	                             double sign_dist0, double sign_dist1, double sign_dist2)
+{
+    if(sign_dist0 * sign_dist1 > 0)
+    {
+        return ComputeInterval( vec_proj2,  vec_proj0,  vec_proj1,
+                                sign_dist2, sign_dist0, sign_dist1);
+    }
+    else if(sign_dist0 * sign_dist2 > 0)
+    {
+        return ComputeInterval( vec_proj1,  vec_proj0,  vec_proj2,
+                                sign_dist1, sign_dist0, sign_dist2);
+    }
+    else if(sign_dist1 * sign_dist2 > 0 || !CheckDoublesEqual(sign_dist0, 0))
+    {
+        return ComputeInterval( vec_proj0,  vec_proj1,  vec_proj2,
+                                sign_dist0, sign_dist1, sign_dist2);
+    }
+    else if(!CheckDoublesEqual(sign_dist1, 0))
+    {
+        return ComputeInterval( vec_proj1,  vec_proj0,  vec_proj2,
+                                sign_dist1, sign_dist0, sign_dist2);
+    }
+    else if(!CheckDoublesEqual(sign_dist2, 0))
+    {
+        return ComputeInterval( vec_proj2,  vec_proj0,  vec_proj1,
+                                sign_dist2, sign_dist0, sign_dist1);
+    }
+
+    return Interval{};
+}
+
 bool CheckTrianglesIntersection(const Triangle3D& triangle0, const Triangle3D& triangle1)
 {
     if(!triangle0.valid() || !triangle1.valid())
@@ -118,23 +163,15 @@ bool CheckTrianglesIntersection(const Triangle3D& triangle0, const Triangle3D& t
     double vec_proj_0_1 = Dot(int_line.distance, triangle0.point1 - int_line.point);
     double vec_proj_0_2 = Dot(int_line.distance, triangle0.point2 - int_line.point);
 
-    double t0 = vec_proj_0_0 + ((vec_proj_0_2 - vec_proj_0_0) * sign_dist_0_0)
-                    / (sign_dist_0_0 - sign_dist_0_2);
-    double t1 = vec_proj_0_1 + ((vec_proj_0_2 - vec_proj_0_1) * sign_dist_0_1)
-                    / (sign_dist_0_1 - sign_dist_0_2);
-
-    Interval interval0 {t0, t1};
+    Interval interval0 = ComputeTriangleInterval(vec_proj_0_0,  vec_proj_0_1,   vec_proj_0_2,
+                                                 sign_dist_0_0, sign_dist_0_1, sign_dist_0_2);
 
     double vec_proj_1_0 = Dot(int_line.distance, triangle1.point0 - int_line.point);
     double vec_proj_1_1 = Dot(int_line.distance, triangle1.point1 - int_line.point);
     double vec_proj_1_2 = Dot(int_line.distance, triangle1.point2 - int_line.point);
 
-    t0 = vec_proj_1_0 + ((vec_proj_1_2 - vec_proj_1_0) * sign_dist_1_0)
-                    / (sign_dist_1_0 - sign_dist_1_2);
-    t1 = vec_proj_1_1 + ((vec_proj_1_2 - vec_proj_1_1) * sign_dist_1_1)
-                    / (sign_dist_1_1 - sign_dist_1_2);
-
-    Interval interval1 {t0, t1};
+     Interval interval1 = ComputeTriangleInterval(vec_proj_1_0,  vec_proj_1_1, vec_proj_1_2,
+                                                 sign_dist_1_0, sign_dist_1_1, sign_dist_1_2);
 
     return interval0.overlap(interval1);
 }

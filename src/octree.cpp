@@ -13,6 +13,31 @@ bool BoundingBox::contains_point(const Point3D& point) const
            (point.z >= min.z && point.z <= max.z);
 }
 
+OctTree::OctTree()
+{
+    for (int i = 0; i < 8; i++)
+    {
+        children_nodes[i] = nullptr;
+    }
+}
+
+OctTree::OctTree(const BoundingBox& bounding_box, const std::list<TriangleWithNum>& local_triangles)
+: boundary(bounding_box), local_triangles(local_triangles)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        children_nodes[i] = nullptr;
+    }
+}
+
+OctTree::~OctTree()
+{
+    for (int i = 0; i < 8; i++)
+    {
+        delete children_nodes[i];
+    }
+}
+
 void OctTree::BuildTree()
 {
     if(local_triangles.size() <= 1)
@@ -54,6 +79,7 @@ void OctTree::BuildTree()
                     oct_lists[i].push_back(*local_triangle);
                     local_triangles.erase(local_triangle);
                     i--;
+
                     break;
                 }
             }
@@ -102,7 +128,7 @@ std::unordered_set<size_t> OctTree::GetIntersection(std::list<TriangleWithNum>& 
 
     for(int i = 0; i < 8; i++)
     {
-        if(children_nodes[i]->local_triangles.size() > 0)
+        if(children_nodes[i] && children_nodes[i]->local_triangles.size() > 0)
         {
             std::unordered_set<size_t> new_intersections = GetIntersection(parent_triangles);
             intersections.insert(new_intersections.begin(), new_intersections.end());
@@ -110,4 +136,10 @@ std::unordered_set<size_t> OctTree::GetIntersection(std::list<TriangleWithNum>& 
     }
 
     return intersections;
+}
+
+std::unordered_set<size_t> OctTree::GetIntersection()
+{
+    std::list<TriangleWithNum> parent_triangles;
+    return GetIntersection(parent_triangles);
 }

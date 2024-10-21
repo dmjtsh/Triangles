@@ -81,8 +81,5 @@ double GetSignDistBetweenPlaneAndPoint(const Plane3D& plane, const Point3D& poin
     double numerator   = plane.normal.x * point.x + plane.normal.y * point.y
     + plane.normal.z * point.z + plane.distance;
 
-    double denominator = std::sqrt(std::pow(plane.normal.x, 2)
-    + std::pow(plane.normal.y, 2) + std::pow(plane.normal.z, 2));
-
-    return numerator / denominator;
+    return numerator;
 }

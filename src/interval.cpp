@@ -15,6 +15,9 @@ Interval::Interval(double t0, double t1)
 
 bool Interval::overlap(const Interval& another_interval) const
 {
+    if (!this->valid() || !another_interval.valid())
+        return false;
+
     return !(t1 + DOUBLE_TOLERANCE < another_interval.t0  || another_interval.t1 + DOUBLE_TOLERANCE < t0);
 }
 

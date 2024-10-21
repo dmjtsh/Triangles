@@ -17,19 +17,12 @@ bool CheckLessOrZero(double a, double b)
 
 bool HasDifferentSign(double a, double b, double c)
 {
-    auto getSignCategory = [](double x) -> int
-    {
-        if (CheckDoublesEqual(x, 0.0))
-            return 0;
-        else if (x > 0.0)
-            return 1;
-        else
-            return -1;
-    };
+    if(CheckDoublesEqual(a,0) || CheckDoublesEqual(b,0) || CheckDoublesEqual(c,0))
+        return true;
 
-    int signA = getSignCategory(a);
-    int signB = getSignCategory(b);
-    int signC = getSignCategory(c);
+    int signA = std::signbit(a);
+    int signB = std::signbit(b);
+    int signC = std::signbit(c);
 
     return (signA != signB) || (signA != signC) || (signB != signC);
 }

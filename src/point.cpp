@@ -31,7 +31,7 @@ bool Point3D::equal(const Point3D& another_point) const
     if(!another_point.valid())
         return false;
 
-    if (CheckDoublesEqual(x, another_point.x) && CheckDoublesEqual(y, another_point.x)
+    if (CheckDoublesEqual(x, another_point.x) && CheckDoublesEqual(y, another_point.y)
     &&  CheckDoublesEqual(z, another_point.z))
         return true;
 
