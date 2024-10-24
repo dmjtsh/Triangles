@@ -152,12 +152,14 @@ TEST(OctTreeTest, GetIntersection_MultipleIntersections1)
     BoundingBox bounding_box(Vector3D(0, 0, 0), Vector3D(10, 10, 10));
     OctTree octree(bounding_box, local_triangles);
 
+    octree.build_tree();
     std::unordered_set<size_t> intersections = octree.get_intersection();
 
     ASSERT_EQ(intersections.size(), 2);
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

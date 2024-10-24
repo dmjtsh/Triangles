@@ -6,7 +6,7 @@ int main()
 {
     try
     {
-        PrintIntersectingTrianglesNums(std::cin);
+        GetIntersectingTrianglesNums(std::cin);
     }
 
     catch (const std::invalid_argument& e)

@@ -1,5 +1,6 @@
 #pragma once
 
 #include <fstream>
+#include <set>
 
-void PrintIntersectingTrianglesNums(std::istream& input);
+std::set<size_t> GetIntersectingTrianglesNums(std::istream& input);
